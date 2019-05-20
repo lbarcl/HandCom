@@ -1,4 +1,4 @@
-const { CommandHandler, Command } = require("vnft-commandhandler");
+const { CommandHandler, Command } = require("vnftjs");
 const axios = require("axios");
 
 const client = new CommandHandler();

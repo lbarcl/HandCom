@@ -1,5 +1,9 @@
 [![npm Downloads](https://img.shields.io/npm/dt/vnft-commandhandler.svg)]
-(https://www.npmjs.com/package/vnft-commandhandler/)
+(https://www.npmjs.com/package/vnft-commandhandler/)  (by old name vnft-commandhandler)  
+
+[![npm Downloads](https://img.shields.io/npm/dt/vnftjs.svg)]
+(https://www.npmjs.com/package/vnftjs/)  (vnftjs)  
+
 
 # vnft-commandhandler
 Discord CommandHandler for TypeScript or JavaScript
