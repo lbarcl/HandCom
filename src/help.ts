@@ -1,13 +1,16 @@
 import { Command } from "./Command";
 import { CommandHandler } from ".";
-import { Message } from "discord.js";
+import { Message, RichEmbed } from "discord.js";
 
 const help = new Command();
 
 help.name = "help";
 help.addAlias("info");
 
-help.funct = (bot: CommandHandler, message: Message, args: String) => {
+help.description = "gives out general or specific command-infos"
+help.usage = "`[command]` or nothing"
+
+help.funct = (bot: CommandHandler, message: Message, args: string) => {
   message.channel.send("(this is a early version of the feature)");
   if (args) {
     commandInfo(bot, message, args);
@@ -17,11 +20,29 @@ help.funct = (bot: CommandHandler, message: Message, args: String) => {
 };
 
 function generalInfo(bot: CommandHandler, message: Message) {
-  message.channel.send(`commands:\n${bot.commands.map(c => c.name).join("\n")}`);
+  const response = new RichEmbed();
+  response.setTitle("Commands");
+  for( let command of bot.commands ){
+    let name = command.name ? bot.prefix + command.name : "\u200B";
+    let description = command.description ? command.description : "\u200B";
+    response.addField(name,description)
+  }
+  message.channel.send("",response)
 }
 
-function commandInfo(bot: CommandHandler, message: Message, command: String) {
-  message.channel.send(`Information of the command: ${command}`);
+function commandInfo(bot: CommandHandler, message: Message, commandname: string) {
+  const response = new RichEmbed();
+  const command = bot.commands.find(c=>c.name == commandname || c.alias.includes(commandname));
+  if(command){
+    response.setTitle(`**${bot.prefix}${command.name}**`);
+    response.addField("Alias",command.alias.join(", "));
+    response.addField("Description",command.description)
+    response.addField("Usage",`${bot.prefix}${command.name} ${command.usage}`)
+    message.channel.send("",response)
+  }
+  else{
+    message.reply(`command "${bot.prefix}${commandname}" not found.`)
+  }
 }
 
 module.exports = help;

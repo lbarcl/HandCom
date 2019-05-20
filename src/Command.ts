@@ -15,6 +15,8 @@ export class Command {
   alias: string[];
   _funct: CommandFunction;
   type: string;
+  description: string;
+  usage: string;
 
   whitelist: permissionlist;
   blacklist: permissionlist;
@@ -22,6 +24,8 @@ export class Command {
   constructor() {
     this.alias = [];
     this.type = "Command";
+    this.description = "*(no description)*";
+    this.usage = "*(no description)*";
 
     this.whitelist = {
       users: [],
