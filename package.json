@@ -1,0 +1,26 @@
+{
+  "name": "vnftjs",
+  "version": "1.1.0",
+  "description": "Discord CommandHandler for TypeScript or JavaScript",
+  "main": "lib",
+  "types": "lib",
+  "scripts": {
+    "test": "node lib",
+    "build": "rm -rf lib && tsc"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "node",
+    "discordapp",
+    "command",
+    "commandhandler"
+  ],
+  "author": "VonFriedricht",
+  "license": "ISC",
+  "runkitExampleFilename": "./docs/examples/runkit.ts",
+  "dependencies": {
+    "discord.js": "^11.5.0",
+    "vnft-tools": "^1.0.9-b"
+  }
+}
