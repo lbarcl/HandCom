@@ -57,8 +57,19 @@ Without whitelist: everyone is allowed that isn't in described in the blacklist
 With whitelist: only whitelisted are allowed that arent in a blacklist of the command
 
 ##### `addRoleWhitelist`
+Same as addUserWhitelist but with Roles
 
 ##### `addRoleBlacklist`
+Same as addUserBlacklist but with Roles
+
+##### enableHelp()
+adds the .help command
+
+##### `description`
+description of the command in the .help command
+
+##### `usage`
+usage-description of the command in the .help command
 
 ## Class: Script
 ##### `funct`
