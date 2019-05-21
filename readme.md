@@ -5,7 +5,7 @@
 (https://www.npmjs.com/package/vnftjs/)  (vnftjs)  
 
 
-# vnft-commandhandler
+# vnftjs
 Discord CommandHandler for TypeScript or JavaScript
 
 ## Table of Contents
