@@ -55,6 +55,12 @@ export class Command {
     return this._funct;
   }
 
+  /**
+   * checks if a author is permitted to use the command
+   * @param author the user that wants to execute the command
+   * @param roles roles of the user that wants to execute the command
+   * @returns {boolean} if the user is permitted to use the command
+   */
   isPermitted(author: User, roles?: Role[]): boolean {
     if (roles) {
       let hasWhitelist = this.whitelist.users.length > 0 || this.whitelist.roles.length > 0;
