@@ -18,6 +18,11 @@ help.funct = (bot: CommandHandler, message: Message, args: string) => {
   }
 };
 
+/**
+ * Sends a RichEmbed with all the commands of the bot
+ * @param {CommandHandler} bot the bot of which the commands should be send
+ * @param {message} message the message to which the reply should be made
+ */
 function generalInfo(bot: CommandHandler, message: Message) {
   const response = new RichEmbed();
   response.setTitle("Commands");
@@ -32,6 +37,12 @@ function generalInfo(bot: CommandHandler, message: Message) {
   message.channel.send("",response)
 }
 
+/**
+ * Sends a RichEmbed with the details of a command
+ * @param {CommandHandler} bot the bot of which the command should be searched
+ * @param {message} message the message to which the reply should be made
+ * @param {string} commandname the targeted command which should be told about
+ */
 function commandInfo(bot: CommandHandler, message: Message, commandname: string) {
   const response = new RichEmbed();
   const command = bot.commands.find(c=>c.name == commandname || c.alias.includes(commandname));

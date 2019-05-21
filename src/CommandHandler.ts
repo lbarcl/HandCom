@@ -128,7 +128,7 @@ export class CommandHandler extends Client {
   }
 
   /**
-   * adds a .help command
+   * adds the .help command
    */
   enableHelp() {
     this.addCommand(require("./help"));

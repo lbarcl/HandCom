@@ -15,6 +15,10 @@ export class Script {
     this.triggered = false;
   }
 
+  /**
+   * executes the function its holding, repeats in a interval if intervalTime is given 
+   * @param {Client} bot the bot that should be passed the function as a parameter
+   */
   trigger(bot: Client) {
     if (this.triggered == false && this.funct) {
       this.funct(bot);
