@@ -1,4 +1,4 @@
-import { Client, Message } from "discord.js";
+import { Client, Message, ColorResolvable } from "discord.js";
 import { Command } from "./Command";
 import { Script } from "./Script";
 import { fetchJS } from "vnft-tools";
@@ -9,6 +9,7 @@ export class CommandHandler extends Client {
   scripts: Script[];
   scriptsTriggered: boolean;
   prefix: string;
+  helpColor: ColorResolvable;
 
   /**
    * The constructor of the CommandHandler class.
