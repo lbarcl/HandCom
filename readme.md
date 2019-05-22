@@ -214,8 +214,11 @@ import axios from "axios";
 const neko = new Command();
 neko.name = "neko";
 neko.addAlias("cat");
+
+// ↓ !help gives out the description "Sends a picture of a cat" and !neko without arguments as usage
 neko.description = "Sends a picture of a cat"
 neko.usage = ""
+
 neko.funct = async (bot: Client, message: Message, args: string) => {
   let meow = await axios.get("http://aws.random.cat/meow");
   message.reply(meow.data.file);
@@ -232,6 +235,10 @@ import { Client, Message } from "discord.js";
 const activity = new Command();
 activity.name = "setActivity";
 activity.addAlias("activity");
+
+// ↓ only the user with the id "397063436049186818" can now execute this command
+activity.addUserWhitelist(u => u.id == "397063436049186818"); 
+
 activity.funct = async (bot: Client, message: Message, args: string) => {
   await bot.user.setActivity(args);
   message.reply(`Activity Updated!`);
