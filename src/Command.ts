@@ -126,27 +126,27 @@ export class Command {
   }
 
   addUserWhitelist(user: userFindFunction | User) {
-    if(user){
+    if(user instanceof User){
       user = u => u.id == user.id
     }
-    this.whitelist.users.push(userFind);
+    this.whitelist.users.push(user);
   }
   addUserBlacklist(user: userFindFunction | User) {
-    if(user){
+    if(user instanceof User){
       user = u => u.id == user.id
     }
-    this.blacklist.users.push(userFind);
+    this.blacklist.users.push(user);
   }
   addRoleWhitelist(role: roleFindFunction | Role) {
-    if(role){
+    if(role instanceof Role){
       role = r => r.id == role.id
     }
-    this.whitelist.roles.push(roleFind);
+    this.whitelist.roles.push(role);
   }
   addRoleBlacklist(role: roleFindFunction | Role) {
-    if(role){
+    if(role instanceof Role){
       role = r => r.id == role.id
     }
-    this.blacklist.roles.push(roleFind);
+    this.blacklist.roles.push(role);
   }
 }
