@@ -137,7 +137,8 @@ const axios = require("axios");
 const neko = new Command();
 neko.name = "neko";
 neko.addAlias("cat");
-neko.
+neko.description = "Sends a picture of a cat"
+neko.usage = ""
 neko.funct = async (bot, message, args) => {
   var meow = await axios.get("http://aws.random.cat/meow");
   message.reply(meow.data.file);
@@ -213,6 +214,8 @@ import axios from "axios";
 const neko = new Command();
 neko.name = "neko";
 neko.addAlias("cat");
+neko.description = "Sends a picture of a cat"
+neko.usage = ""
 neko.funct = async (bot: Client, message: Message, args: string) => {
   let meow = await axios.get("http://aws.random.cat/meow");
   message.reply(meow.data.file);
