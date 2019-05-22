@@ -125,16 +125,28 @@ export class Command {
     }
   }
 
-  addUserWhitelist(userFind: userFindFunction) {
+  addUserWhitelist(user: userFindFunction | User) {
+    if(user){
+      user = u => u.id == user.id
+    }
     this.whitelist.users.push(userFind);
   }
-  addUserBlacklist(userFind: userFindFunction) {
+  addUserBlacklist(user: userFindFunction | User) {
+    if(user){
+      user = u => u.id == user.id
+    }
     this.blacklist.users.push(userFind);
   }
-  addRoleWhitelist(roleFind: roleFindFunction) {
+  addRoleWhitelist(role: roleFindFunction | Role) {
+    if(role){
+      role = r => r.id == role.id
+    }
     this.whitelist.roles.push(roleFind);
   }
-  addRoleBlacklist(roleFind: roleFindFunction) {
+  addRoleBlacklist(role: roleFindFunction | Role) {
+    if(role){
+      role = r => r.id == role.id
+    }
     this.blacklist.roles.push(roleFind);
   }
 }
