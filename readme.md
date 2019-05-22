@@ -10,7 +10,7 @@ Discord CommandHandler for TypeScript or JavaScript
 
 ## Table of Contents
 
-* [Classes](#classes)
+* [Classes](#class-commandhandler)
   * [CommandHandler](#class-commandhandler)
     - [prefix](#prefix)
     - [loadCommands(path)](#loadcommandspath)
@@ -19,6 +19,13 @@ Discord CommandHandler for TypeScript or JavaScript
     - [name](#name)
     - [funct](#funct)
     - [addAlias(name)](#addaliasname)
+    - [addUserWhitelist(user)](#adduserwhitelistuser)
+    - [addUserBlacklist(user)](#adduserblacklistuser)
+    - [addRoleWhitelist(role)](#addrolewhitelistrole)
+    - [addRoleBlacklist(role)](#addroleblacklistrole)
+    - [enableHelp()](#enablehelp)
+    - [description](#description)
+    - [usage](#usage)
   * [Script](#class-script)
     - [funct](#funct-1)
     - [intervalTime](#intervaltime)
@@ -49,20 +56,20 @@ filled with an function with the parameters `(bot: Client, message: Message, arg
 ##### `addAlias(name)`
 Alternative Names for the Command which should trigger the `Command.funct`
 
-##### `addUserWhitelist( u => u.id == "397063436049186818" )`
+##### `addUserWhitelist(user)`
 Limtes the Users that can use the command to those who are described in the whitelist
 
-##### `addUserBlacklist( u => u.id == "535483764395081759" )`
+##### `addUserBlacklist(user)`
 Without whitelist: everyone is allowed that isn't in described in the blacklist
 With whitelist: only whitelisted are allowed that arent in a blacklist of the command
 
-##### `addRoleWhitelist`
+##### `addRoleWhitelist(role)`
 Same as addUserWhitelist but with Roles
 
-##### `addRoleBlacklist`
+##### `addRoleBlacklist(role)`
 Same as addUserBlacklist but with Roles
 
-##### enableHelp()
+##### `enableHelp()`
 adds the .help command
 
 ##### `description`
@@ -130,6 +137,7 @@ const axios = require("axios");
 const neko = new Command();
 neko.name = "neko";
 neko.addAlias("cat");
+neko.
 neko.funct = async (bot, message, args) => {
   var meow = await axios.get("http://aws.random.cat/meow");
   message.reply(meow.data.file);
@@ -205,7 +213,6 @@ import axios from "axios";
 const neko = new Command();
 neko.name = "neko";
 neko.addAlias("cat");
-
 neko.funct = async (bot: Client, message: Message, args: string) => {
   let meow = await axios.get("http://aws.random.cat/meow");
   message.reply(meow.data.file);
