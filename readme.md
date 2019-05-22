@@ -1,8 +1,5 @@
-[![npm Downloads](https://img.shields.io/npm/dt/vnft-commandhandler.svg)]
-(https://www.npmjs.com/package/vnft-commandhandler/)  (by old name vnft-commandhandler)  
-
-[![npm Downloads](https://img.shields.io/npm/dt/vnftjs.svg)]
-(https://www.npmjs.com/package/vnftjs/)  (vnftjs)  
+![npm Downloads](https://img.shields.io/npm/dt/vnft-commandhandler.svg) (by old name [vnft-commandhandler](https://www.npmjs.com/package/vnft-commandhandler/))  
+![npm Downloads](https://img.shields.io/npm/dt/vnftjs.svg) ([vnftjs](https://www.npmjs.com/package/vnftjs/))  
 
 
 # vnftjs
@@ -105,7 +102,7 @@ time in ms in which it should be repeated
 #### Code
 ##### main.js
 ```js
-const { CommandHandler } = require("vnft-commandhandler");
+const { CommandHandler } = require("vnftjs");
 const path = require("path");
 
 const client = new CommandHandler();
@@ -118,10 +115,11 @@ client.login("Discord Token");
 
 ##### commands/ping.js
 ```js
-const { Command } = require("vnft-commandhandler");
+const { Command } = require("vnftjs");
 
 const pingCommand = new Command();
 pingCommand.name = "ping";
+
 pingCommand.funct = (bot, message, args) => {
   message.reply("Pong!");
 };
@@ -131,14 +129,17 @@ module.exports = pingCommand;
 
 ##### commands/neko.js
 ```js
-const { Command } = require("vnft-commandhandler");
+const { Command } = require("vnftjs");
 const axios = require("axios");
 
 const neko = new Command();
 neko.name = "neko";
 neko.addAlias("cat");
-neko.description = "Sends a picture of a cat"
-neko.usage = ""
+
+// ↓ !help gives out the description "Sends a picture of a cat" and !neko without arguments as usage
+neko.description = "Sends a picture of a cat";
+neko.usage = "";
+
 neko.funct = async (bot, message, args) => {
   var meow = await axios.get("http://aws.random.cat/meow");
   message.reply(meow.data.file);
@@ -149,11 +150,15 @@ module.exports = neko;
 
 ##### commands/activity.js
 ```js
-const { Command } = require("vnft-commandhandler");
+const { Command } = require("vnftjs");
 
 const activity = new Command();
 activity.name = "setActivity";
 activity.addAlias("activity");
+
+// ↓ only the user with the id "397063436049186818" can now execute this command
+activity.addUserWhitelist(u => u.id == "397063436049186818");
+
 activity.funct = async (bot, message, args) => {
   await bot.user.setActivity(args);
   message.reply(`Status Updated`);
@@ -179,7 +184,7 @@ src/
 
 ##### main.ts
 ```ts
-import { CommandHandler } from "vnft-commandhandler";
+import { CommandHandler } from "vnftjs";
 import * as path from "path";
 
 const client = new CommandHandler();
@@ -192,7 +197,7 @@ client.login("Discord Token");
 
 ##### commands/ping.ts
 ```ts
-import { Command } from "vnft-commandhandler";
+import { Command } from "vnftjs";
 import { Client, Message } from "discord.js";
 
 const ping = new Command();
@@ -207,7 +212,7 @@ module.exports = ping;
 
 ##### commands/neko.ts
 ```ts
-import { Command } from "vnft-commandhandler";
+import { Command } from "vnftjs";
 import { Client, Message } from "discord.js";
 import axios from "axios";
 
@@ -216,8 +221,8 @@ neko.name = "neko";
 neko.addAlias("cat");
 
 // ↓ !help gives out the description "Sends a picture of a cat" and !neko without arguments as usage
-neko.description = "Sends a picture of a cat"
-neko.usage = ""
+neko.description = "Sends a picture of a cat";
+neko.usage = "";
 
 neko.funct = async (bot: Client, message: Message, args: string) => {
   let meow = await axios.get("http://aws.random.cat/meow");
@@ -229,7 +234,7 @@ module.exports = neko;
 
 ##### commands/setActivity.ts
 ```ts
-import { Command } from "vnft-commandhandler";
+import { Command } from "vnftjs";
 import { Client, Message } from "discord.js";
 
 const activity = new Command();
@@ -237,7 +242,7 @@ activity.name = "setActivity";
 activity.addAlias("activity");
 
 // ↓ only the user with the id "397063436049186818" can now execute this command
-activity.addUserWhitelist(u => u.id == "397063436049186818"); 
+activity.addUserWhitelist(u => u.id == "397063436049186818");
 
 activity.funct = async (bot: Client, message: Message, args: string) => {
   await bot.user.setActivity(args);
