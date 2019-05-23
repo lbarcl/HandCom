@@ -127,12 +127,12 @@ export class Command {
 
   /**
    * Adds a user to the whitelist of the command.
-   * Once an entry has been added to the whitelist, are only those in the whitelist allowed to use the command.
-   * If a user on the whitelist is blacklisted in any way, so is that user unable to use the command.
+   * Once an entry has been added to the whitelist, only those in the whitelist allowed to use the command.
+   * If a user on the whitelist is blacklisted in any way, that user unable to use the command.
    * @param {userFindFunction} user Function with user as the parameter, those who let this function return true are on the whitelist.
    * @param {User} user The user that is to be added.
    * @example
-   * addUserWhitelist(u => u.id == "397063436049186818");
+   * command.addUserWhitelist(u => u.id == "397063436049186818");
    * @example
    * // unrecommended, but better understandable
    * const jeff = client.users.find(u => u.id == "397063436049186818");
@@ -144,18 +144,50 @@ export class Command {
     }
     this.whitelist.users.push(user);
   }
+
+  /**
+   * Adds a user to the blacklist of the command.
+   * Any Blacklisted user is not permitted to use the command, even if the user is Whitelisted in any way.
+   * @param {userFindFunction} user Function with user as the parameter, those who let this function return true are on the blacklist.
+   * @param {User} user The user that is to be added.
+   * @example
+   * command.addUserBlacklist(u => u.id == "397063436049186818");
+   * @example
+   * // unrecommended, but better understandable
+   * const jeff = client.users.find(u => u.id == "397063436049186818");
+   * command.addUserBlacklist(jeff);
+   */
   addUserBlacklist(user: userFindFunction | User) {
     if(user instanceof User){
       user = u => u.id == user.id
     }
     this.blacklist.users.push(user);
   }
+  
+  /**
+   * Adds a role to the whitelist of the command.
+   * Once an entry has been added to the whitelist, only those in the whitelist allowed to use the command.
+   * If a user on the whitelist is blacklisted in any way, that user unable to use the command.
+   * @param {roleFindFunction} role Function with role as the parameter, those with a role that let this function return true are on the whitelist.
+   * @param {Role} role The role that is to be added.
+   * @example
+   * command.addRoleWhitelist(r => r.id == "397063436049186818");
+   */
   addRoleWhitelist(role: roleFindFunction | Role) {
     if(role instanceof Role){
       role = r => r.id == role.id
     }
     this.whitelist.roles.push(role);
   }
+  
+  /**
+   * Adds a role to the blacklist of the command.
+   * Any user with a Blacklisted role is not permitted to use the command, even if the user is Whitelisted in any way.
+   * @param {roleFindFunction} role Function with role as the parameter, those with a role that let this function return true are on the blacklist.
+   * @param {Role} role The role that is to be added.
+   * @example
+   * command.addRoleBlacklist(r => r.id == "397063436049186818");
+   */
   addRoleBlacklist(role: roleFindFunction | Role) {
     if(role instanceof Role){
       role = r => r.id == role.id
