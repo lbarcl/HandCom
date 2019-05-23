@@ -129,7 +129,7 @@ export class Command {
    * adds a user to the whitelist of the command
    * once a entry in the whitelist is made, only those who are in the whitelist are allowed to use the command
    * if a whitelisted user is in some way in a blacklist, is he still unable to use the command
-   * @param {userFindFunction} function with user as the parameter, those who let that function return true are whitelisted
+   * @param {userFindFunction} user function with user as the parameter, those who let that function return true are whitelisted
    * @param {user} user the user that is to be added
    * @example
    * addUserWhitelist(u => u.id == "397063436049186818");
