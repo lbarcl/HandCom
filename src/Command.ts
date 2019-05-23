@@ -127,14 +127,14 @@ export class Command {
 
   /**
    * Adds a user to the whitelist of the command.
-   * Once an entry has been added to the whitelist, only those in the whitelist allowed to use the command.
-   * If a user on the whitelist is blacklisted in any way, that user unable to use the command.
-   * @param {userFindFunction} user Function with user as the parameter, those who let this function return true are on the whitelist.
-   * @param {User} user The user that is to be added.
+   * Once an entry is added to the whitelist, only those in the whitelist are allowed to use the command.
+   * If a user on the whitelist is blacklisted in any way, that user cannot use the command.
+   * @param {userFindFunction} user Function with user as parameter, those that make this function return true are on the whitelist.
+   * @param {User} user The user to be added.
    * @example
    * command.addUserWhitelist(u => u.id == "397063436049186818");
    * @example
-   * // unrecommended, but better understandable
+   * // not recommendable, but better understandable
    * const jeff = client.users.find(u => u.id == "397063436049186818");
    * command.addUserWhitelist(jeff);
    */
@@ -147,13 +147,13 @@ export class Command {
 
   /**
    * Adds a user to the blacklist of the command.
-   * Any Blacklisted user is not permitted to use the command, even if the user is Whitelisted in any way.
-   * @param {userFindFunction} user Function with user as the parameter, those who let this function return true are on the blacklist.
-   * @param {User} user The user that is to be added.
+   * Any user on the blacklist is not allowed to use the command, even if they are whitelisted in any way.
+   * @param {userFindFunction} user Function with user as parameter, those that make this function return true are on the blacklist.
+   * @param {User} user The user to add.
    * @example
    * command.addUserBlacklist(u => u.id == "397063436049186818");
    * @example
-   * // unrecommended, but better understandable
+   * // not recommendable, but better understandable
    * const jeff = client.users.find(u => u.id == "397063436049186818");
    * command.addUserBlacklist(jeff);
    */
@@ -166,9 +166,9 @@ export class Command {
   
   /**
    * Adds a role to the whitelist of the command.
-   * Once an entry has been added to the whitelist, only those in the whitelist allowed to use the command.
-   * If a user on the whitelist is blacklisted in any way, that user unable to use the command.
-   * @param {roleFindFunction} role Function with role as the parameter, those with a role that let this function return true are on the whitelist.
+   * Once an entry is added to the whitelist, only those in the whitelist are allowed to use the command.
+   * If a user on the whitelist is blacklisted in any way, that user cannot use the command.
+   * @param {roleFindFunction} role Function with role as parameter, those with a role that make this function return true are on the whitelist.
    * @param {Role} role The role that is to be added.
    * @example
    * command.addRoleWhitelist(r => r.id == "397063436049186818");
@@ -182,8 +182,8 @@ export class Command {
   
   /**
    * Adds a role to the blacklist of the command.
-   * Any user with a Blacklisted role is not permitted to use the command, even if the user is Whitelisted in any way.
-   * @param {roleFindFunction} role Function with role as the parameter, those with a role that let this function return true are on the blacklist.
+   * Any user with a blacklisted role is not allowed to use the command, even if they are whitelisted in any way.
+   * @param {roleFindFunction} role Function with role as parameter, those with role that make this function return true are on the blacklist.
    * @param {Role} role The role that is to be added.
    * @example
    * command.addRoleBlacklist(r => r.id == "397063436049186818");
