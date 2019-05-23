@@ -89,6 +89,9 @@ export class CommandHandler extends Client {
    * Loads all exported Commands inside of the given Path
    * (goes also through the subfolders)
    * @param target_path - The Path that should be crawled for exported Commands
+   * @example
+   * const path = require("path");
+   * client.loadCommands(path.join(__dirname,"commands"));
    */
   loadCommands(target_path: string) {
     let exists = fs.existsSync(target_path);
