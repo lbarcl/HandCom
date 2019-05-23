@@ -4,6 +4,9 @@ import { Script } from "./Script";
 import { fetchJS } from "vnft-tools";
 import * as fs from "fs";
 
+/**
+ * @extends {Client}
+ */
 export class CommandHandler extends Client {
   commands: Command[];
   scripts: Script[];
@@ -51,7 +54,13 @@ export class CommandHandler extends Client {
    * @param {Command} command - The Command that should be added.
    */
   addCommand(command: Command) {
-    console.log(`loaded ${command.name}`);
+    let name = command.name;
+    let alias = command.alias ? ` + (${command.alias.join(", ")})` : "";
+    
+    console.log(`loading ${name}${alias}`);
+    if (!command.funct) {
+      console.log(`${name} doesn't have a funct, it doesn't do anything when called!`)
+    }
     this.commands.push(command);
   }
 
