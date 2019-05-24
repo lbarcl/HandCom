@@ -6,6 +6,7 @@
   "types": "lib",
   "scripts": {
     "test": "rm -rf lib && tsc && node ./lib/secret.test.js",
+    "generate-docs": "node_modules/.bin/jsdoc --configure .jsdoc.json --verbose",
     "build": "rm -rf lib && tsc"
   },
   "repository": {
@@ -26,5 +27,9 @@
   "dependencies": {
     "discord.js": "^11.5.0",
     "vnft-tools": "^1.0.9-b"
+  },
+  "devDependencies": {
+    "jsdoc": "^3.6.2",
+    "minami": "^1.2.3"
   }
 }

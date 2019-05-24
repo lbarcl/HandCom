@@ -140,7 +140,8 @@ export class Command {
    */
   addUserWhitelist(user: userFindFunction | User) {
     if(user instanceof User){
-      user = u => u.id == user.id
+      let targetId:string = user.id
+      user = u => u.id == targetId
     }
     this.whitelist.users.push(user);
   }
@@ -159,7 +160,8 @@ export class Command {
    */
   addUserBlacklist(user: userFindFunction | User) {
     if(user instanceof User){
-      user = u => u.id == user.id
+      let targetId:string = user.id
+      user = u => u.id == targetId
     }
     this.blacklist.users.push(user);
   }
@@ -175,7 +177,8 @@ export class Command {
    */
   addRoleWhitelist(role: roleFindFunction | Role) {
     if(role instanceof Role){
-      role = r => r.id == role.id
+      let targetId:string = role.id
+      role = r => r.id == targetId
     }
     this.whitelist.roles.push(role);
   }
@@ -190,7 +193,8 @@ export class Command {
    */
   addRoleBlacklist(role: roleFindFunction | Role) {
     if(role instanceof Role){
-      role = r => r.id == role.id
+      let targetId:string = role.id
+      role = r => r.id == targetId
     }
     this.blacklist.roles.push(role);
   }

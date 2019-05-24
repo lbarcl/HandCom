@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Home - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="CommandHandler.html">CommandHandler</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CommandHandler.html#addCommand">addCommand</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CommandHandler.html#addScript">addScript</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CommandHandler.html#commandListener">commandListener</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CommandHandler.html#enableHelp">enableHelp</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CommandHandler.html#loadCommands">loadCommands</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CommandHandler.html#loadScripts">loadScripts</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CommandHandler.html#scriptTrigger">scriptTrigger</a></span></li>
+</nav>
+
+<div id="main">
+    
+
+    
+
+
+
+    
+
+
+
+
+
+
+
+
+
+    
+
+
+    <section class="readme">
+        <article><p><img src="https://img.shields.io/npm/dt/vnft-commandhandler.svg" alt="npm Downloads"> (by old name <a href="https://www.npmjs.com/package/vnft-commandhandler/">vnft-commandhandler</a>)<br>
+<img src="https://img.shields.io/npm/dt/vnftjs.svg" alt="npm Downloads"> (<a href="https://www.npmjs.com/package/vnftjs/">vnftjs</a>)</p>
+<h1>vnftjs</h1>
+<p>Discord CommandHandler for TypeScript or JavaScript</p>
+<h2>Table of Contents</h2>
+<ul>
+<li><a href="#class-commandhandler">Classes</a>
+<ul>
+<li><a href="#class-commandhandler">CommandHandler</a>
+<ul>
+<li><a href="#prefix">prefix</a></li>
+<li><a href="#loadcommandspath">loadCommands(path)</a></li>
+<li><a href="#loadscriptspath">loadScripts(path)</a></li>
+</ul>
+</li>
+<li><a href="#class-command">Command</a>
+<ul>
+<li><a href="#name">name</a></li>
+<li><a href="#funct">funct</a></li>
+<li><a href="#addaliasname">addAlias(name)</a></li>
+<li><a href="#adduserwhitelistuser">addUserWhitelist(user)</a></li>
+<li><a href="#adduserblacklistuser">addUserBlacklist(user)</a></li>
+<li><a href="#addrolewhitelistrole">addRoleWhitelist(role)</a></li>
+<li><a href="#addroleblacklistrole">addRoleBlacklist(role)</a></li>
+<li><a href="#enablehelp">enableHelp()</a></li>
+<li><a href="#description">description</a></li>
+<li><a href="#usage">usage</a></li>
+</ul>
+</li>
+<li><a href="#class-script">Script</a>
+<ul>
+<li><a href="#funct-1">funct</a></li>
+<li><a href="#intervaltime">intervalTime</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#examples">Examples</a>
+<ul>
+<li><a href="#javascipt">JavaScript</a></li>
+<li><a href="#typescript">TypeScript</a></li>
+</ul>
+</li>
+</ul>
+<h2>Class: CommandHandler</h2>
+<p>The extended discord.js Client</p>
+<h5><code>prefix</code></h5>
+<p>The prefix for the Commands, <code>.</code> is default</p>
+<h5><code>loadCommands(path)</code></h5>
+<p>loads all exported Command-Instances of the given Path</p>
+<h5><code>loadScripts(path)</code></h5>
+<p>loads all exported Script-Instances of the given Path and triggers them after the Client had a successful login</p>
+<h2>Class: Command</h2>
+<h5><code>name</code></h5>
+<p>The main trigger for the command (without prefix)</p>
+<h5><code>funct</code></h5>
+<p>filled with an function with the parameters <code>(bot: Client, message: Message, args: string)</code></p>
+<h5><code>addAlias(name)</code></h5>
+<p>Alternative Names for the Command which should trigger the <code>Command.funct</code></p>
+<h5><code>addUserWhitelist(user)</code></h5>
+<p>Limtes the Users that can use the command to those who are described in the whitelist</p>
+<h5><code>addUserBlacklist(user)</code></h5>
+<p>Without whitelist: everyone is allowed that isn't in described in the blacklist
+With whitelist: only whitelisted are allowed that arent in a blacklist of the command</p>
+<h5><code>addRoleWhitelist(role)</code></h5>
+<p>Same as addUserWhitelist but with Roles</p>
+<h5><code>addRoleBlacklist(role)</code></h5>
+<p>Same as addUserBlacklist but with Roles</p>
+<h5><code>enableHelp()</code></h5>
+<p>adds the .help command</p>
+<h5><code>description</code></h5>
+<p>description of the command in the .help command</p>
+<h5><code>usage</code></h5>
+<p>usage-description of the command in the .help command</p>
+<h2>Class: Script</h2>
+<h5><code>funct</code></h5>
+<p>filled with an function with the parameters <code>(bot: Client)</code></p>
+<h5><code>intervalTime</code></h5>
+<p>time in ms in which it should be repeated<br>
+(negative numbers are disabling the repeat, -1 is the default value)</p>
+<h2>Examples</h2>
+<h3><strong>JavaScipt</strong></h3>
+<h4>Structure for this example</h4>
+<pre class="prettyprint source"><code>.
+├── main.js
+├── commands/
+│   ├── ping.js
+│   ├── neko.js
+│   └── setActivity.js
+└── scripts/
+    ├── tbd
+    └── tbd
+</code></pre>
+<h4>Code</h4>
+<h5>main.js</h5>
+<pre class="prettyprint source lang-js"><code>const { CommandHandler } = require(&quot;vnftjs&quot;);
+const path = require(&quot;path&quot;);
+
+const client = new CommandHandler();
+client.prefix = &quot;!&quot;;
+
+client.loadCommands(path.join(__dirname, &quot;commands&quot;));
+
+client.login(&quot;Discord Token&quot;);
+</code></pre>
+<h5>commands/ping.js</h5>
+<pre class="prettyprint source lang-js"><code>const { Command } = require(&quot;vnftjs&quot;);
+
+const pingCommand = new Command();
+pingCommand.name = &quot;ping&quot;;
+
+pingCommand.funct = (bot, message, args) => {
+  message.reply(&quot;Pong!&quot;);
+};
+
+module.exports = pingCommand;
+</code></pre>
+<h5>commands/neko.js</h5>
+<pre class="prettyprint source lang-js"><code>const { Command } = require(&quot;vnftjs&quot;);
+const axios = require(&quot;axios&quot;);
+
+const neko = new Command();
+neko.name = &quot;neko&quot;;
+neko.addAlias(&quot;cat&quot;);
+
+// ↓ !help gives out the description &quot;Sends a picture of a cat&quot; and !neko without arguments as usage
+neko.description = &quot;Sends a picture of a cat&quot;;
+neko.usage = &quot;&quot;;
+
+neko.funct = async (bot, message, args) => {
+  var meow = await axios.get(&quot;http://aws.random.cat/meow&quot;);
+  message.reply(meow.data.file);
+};
+
+module.exports = neko;
+</code></pre>
+<h5>commands/activity.js</h5>
+<pre class="prettyprint source lang-js"><code>const { Command } = require(&quot;vnftjs&quot;);
+
+const activity = new Command();
+activity.name = &quot;setActivity&quot;;
+activity.addAlias(&quot;activity&quot;);
+
+// ↓ only the user with the id &quot;397063436049186818&quot; can now execute this command
+activity.addUserWhitelist(u => u.id == &quot;397063436049186818&quot;);
+
+activity.funct = async (bot, message, args) => {
+  await bot.user.setActivity(args);
+  message.reply(`Status Updated`);
+};
+
+module.exports = activity;
+</code></pre>
+<h3><strong>TypeScript</strong></h3>
+<h4>Structure for this example:</h4>
+<pre class="prettyprint source"><code>src/
+├── main.ts
+├── commands/
+│   ├── ping.ts
+│   ├── neko.ts
+│   └── setActivity.ts
+└── scripts/
+    ├── tbd
+    └── tbd
+</code></pre>
+<h4>Code</h4>
+<h5>main.ts</h5>
+<pre class="prettyprint source lang-ts"><code>import { CommandHandler } from &quot;vnftjs&quot;;
+import * as path from &quot;path&quot;;
+
+const client = new CommandHandler();
+client.prefix = &quot;!&quot;;
+
+client.loadCommands(path.join(__dirname, &quot;commands&quot;));
+
+client.login(&quot;Discord Token&quot;);
+</code></pre>
+<h5>commands/ping.ts</h5>
+<pre class="prettyprint source lang-ts"><code>import { Command } from &quot;vnftjs&quot;;
+import { Client, Message } from &quot;discord.js&quot;;
+
+const ping = new Command();
+ping.name = &quot;ping&quot;;
+
+ping.funct = (bot: Client, message: Message, args: string) => {
+  message.reply(&quot;Pong&quot;);
+};
+
+module.exports = ping;
+</code></pre>
+<h5>commands/neko.ts</h5>
+<pre class="prettyprint source lang-ts"><code>import { Command } from &quot;vnftjs&quot;;
+import { Client, Message } from &quot;discord.js&quot;;
+import axios from &quot;axios&quot;;
+
+const neko = new Command();
+neko.name = &quot;neko&quot;;
+neko.addAlias(&quot;cat&quot;);
+
+// ↓ !help gives out the description &quot;Sends a picture of a cat&quot; and !neko without arguments as usage
+neko.description = &quot;Sends a picture of a cat&quot;;
+neko.usage = &quot;&quot;;
+
+neko.funct = async (bot: Client, message: Message, args: string) => {
+  let meow = await axios.get(&quot;http://aws.random.cat/meow&quot;);
+  message.reply(meow.data.file);
+};
+
+module.exports = neko;
+</code></pre>
+<h5>commands/setActivity.ts</h5>
+<pre class="prettyprint source lang-ts"><code>import { Command } from &quot;vnftjs&quot;;
+import { Client, Message } from &quot;discord.js&quot;;
+
+const activity = new Command();
+activity.name = &quot;setActivity&quot;;
+activity.addAlias(&quot;activity&quot;);
+
+// ↓ only the user with the id &quot;397063436049186818&quot; can now execute this command
+activity.addUserWhitelist(u => u.id == &quot;397063436049186818&quot;);
+
+activity.funct = async (bot: Client, message: Message, args: string) => {
+  await bot.user.setActivity(args);
+  message.reply(`Activity Updated!`);
+};
+
+module.exports = activity;
+</code></pre></article>
+    </section>
+
+
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.2</a> on Thu May 23 2019 19:12:26 GMT+0200 (GMT+02:00) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>
