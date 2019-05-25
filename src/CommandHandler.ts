@@ -55,7 +55,7 @@ export class CommandHandler extends Client {
    */
   addCommand(command: Command) {
     let name = command.name;
-    let alias = command.alias ? ` + (${command.alias.join(", ")})` : "";
+    let alias = command.alias.length > 0 ? ` + ${command.alias.join(", ")}` : "";
     
     console.log(`loading ${name}${alias}`);
     if (!command.funct) {
