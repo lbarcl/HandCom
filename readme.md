@@ -12,6 +12,7 @@ Discord CommandHandler for TypeScript or JavaScript
     - [prefix](#prefix)
     - [loadCommands(path)](#loadcommandspath)
     - [loadScripts(path)](#loadscriptspath)
+    - WIP [enableDebug()](#enabledebug)
   * [Command](#class-command)
     - [name](#name)
     - [funct](#funct)
@@ -41,6 +42,9 @@ loads all exported Command-Instances of the given Path
 
 ##### `loadScripts(path)`
 loads all exported Script-Instances of the given Path and triggers them after the Client had a successful login
+
+##### `enableDebug()`
+lets every __command__ reload at use, allowes change of files while having the bot running
 
 
 ## Class: Command

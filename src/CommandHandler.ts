@@ -13,6 +13,7 @@ export class CommandHandler extends Client {
   scriptsTriggered: boolean;
   prefix: string;
   helpColor: ColorResolvable;
+  debug: boolean;
 
   /**
    * The constructor of the CommandHandler class.
@@ -23,11 +24,13 @@ export class CommandHandler extends Client {
     this.commands = [];
     this.scripts = [];
     this.prefix = ".";
+    this.debug = false;
     this.on("message", message => this.commandListener(message));
     this.on("ready", () => this.scriptTrigger());
   }
 
   /**
+   * Gets executed at each message.
    * Checks an Message for a Command and executes it if one has been found.
    * @param {Message} message - The Discord Message that should be checked for a Command.
    */
@@ -44,6 +47,14 @@ export class CommandHandler extends Client {
       let isName = c.name.toLowerCase() == commandName;
       return inAlias || isName;
     });
+    if (command && this.debug) {
+      this.reload(command.path);
+      command = this.commands.find(c => {
+        let inAlias = c.alias.map(s => s.toLowerCase()).includes(commandName);
+        let isName = c.name.toLowerCase() == commandName;
+        return inAlias || isName;
+      });
+    }
     if (command) {
       command.execute(this, message);
     }
@@ -59,7 +70,7 @@ export class CommandHandler extends Client {
     
     console.log(`loading ${name}${alias}`);
     if (!command.funct) {
-      console.log(`${name} doesn't have a funct, it doesn't do anything when called!`)
+      console.log(`${name} doesn't have a funct, it doesn't do anything when called!`);
     }
     this.commands.push(command);
   }
@@ -107,6 +118,7 @@ export class CommandHandler extends Client {
         }
         for (let command of commands) {
           if (command.type == "Command") {
+            command.path = file;
             this.addCommand(command);
           }
         }
@@ -145,4 +157,28 @@ export class CommandHandler extends Client {
   enableHelp() {
     this.addCommand(require("./help"));
   }
+
+  /**
+   * turns debug mode on
+   */
+  enableDebug() {
+    this.debug = true;
+  }
+
+  reload(file) {
+    delete require.cache[require.resolve(file)];
+    this.commands = this.commands.filter(c => c.path != file);
+
+    let commands: Command | Command[] = require(file);
+    if (!Array.isArray(commands)) {
+      commands = [commands];
+    }
+    for (let command of commands) {
+      if (command.type == "Command") {
+        command.path = file;
+        this.addCommand(command);
+      }
+    }
+  }
+  
 }

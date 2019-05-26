@@ -20,7 +20,7 @@ const neko = new Command();
 neko.name = "neko";
 neko.addAlias("cat");
 neko.description = "replies a random cat image with the help of random.cat";
-neko.usage= "";
+neko.usage = "";
 neko.funct = async (bot, message, args) => {
   var meow = await axios.get("http://aws.random.cat/meow");
   message.reply(meow.data.file);
@@ -33,6 +33,5 @@ client.helpColor = "GREEN";
 // this simulates client.loadCommands(path)
 client.addCommand(pingCommand);
 client.addCommand(neko);
-
 
 client.login(Discord_Token);

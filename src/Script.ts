@@ -16,7 +16,7 @@ export class Script {
   }
 
   /**
-   * executes the function its holding, repeats in a interval if intervalTime is given 
+   * executes the function its holding, repeats in a interval if intervalTime is given
    * @param {Client} bot the bot that should be passed the function as a parameter
    */
   trigger(bot: Client) {

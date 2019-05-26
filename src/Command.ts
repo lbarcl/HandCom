@@ -17,6 +17,7 @@ export class Command {
   type: string;
   description: string;
   usage: string;
+  path: string;
 
   whitelist: permissionlist;
   blacklist: permissionlist;
@@ -26,6 +27,7 @@ export class Command {
     this.type = "Command";
     this.description = "*(no description)*";
     this.usage = "*(no description)*";
+    this.path = "./";
 
     this.whitelist = {
       users: [],
@@ -139,9 +141,9 @@ export class Command {
    * command.addUserWhitelist(jeff);
    */
   addUserWhitelist(user: userFindFunction | User) {
-    if(user instanceof User){
-      let targetId:string = user.id
-      user = u => u.id == targetId
+    if (user instanceof User) {
+      let targetId: string = user.id;
+      user = u => u.id == targetId;
     }
     this.whitelist.users.push(user);
   }
@@ -159,13 +161,13 @@ export class Command {
    * command.addUserBlacklist(jeff);
    */
   addUserBlacklist(user: userFindFunction | User) {
-    if(user instanceof User){
-      let targetId:string = user.id
-      user = u => u.id == targetId
+    if (user instanceof User) {
+      let targetId: string = user.id;
+      user = u => u.id == targetId;
     }
     this.blacklist.users.push(user);
   }
-  
+
   /**
    * Adds a role to the whitelist of the command.
    * Once an entry is added to the whitelist, only those in the whitelist are allowed to use the command.
@@ -176,13 +178,13 @@ export class Command {
    * command.addRoleWhitelist(r => r.id == "397063436049186818");
    */
   addRoleWhitelist(role: roleFindFunction | Role) {
-    if(role instanceof Role){
-      let targetId:string = role.id
-      role = r => r.id == targetId
+    if (role instanceof Role) {
+      let targetId: string = role.id;
+      role = r => r.id == targetId;
     }
     this.whitelist.roles.push(role);
   }
-  
+
   /**
    * Adds a role to the blacklist of the command.
    * Any user with a blacklisted role is not allowed to use the command, even if they are whitelisted in any way.
@@ -192,9 +194,9 @@ export class Command {
    * command.addRoleBlacklist(r => r.id == "397063436049186818");
    */
   addRoleBlacklist(role: roleFindFunction | Role) {
-    if(role instanceof Role){
-      let targetId:string = role.id
-      role = r => r.id == targetId
+    if (role instanceof Role) {
+      let targetId: string = role.id;
+      role = r => r.id == targetId;
     }
     this.blacklist.roles.push(role);
   }
