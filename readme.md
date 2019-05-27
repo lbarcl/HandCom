@@ -49,52 +49,54 @@ reloads the source file of a command before execution. allows editing commands w
 
 ## Class: Command
 ##### `name`
-the main trigger for the command (without prefix)
+the main trigger for the command (without prefix)  
 
 ##### `funct`
-the function that gets triggered with the call of the command.
+the function that gets triggered with the call of the command.  
 parameters: `(client: Client, message: Message, args: string)`  
-`Client: the discord client ( + the extended commandhandler )`
-`Message: the message that triggered the command`
-`args: the entire string after the commandname (e.g. .help ping → args:"ping")`
+  
+`Client: the discord client ( + the extended commandhandler )`  
+`Message: the message that triggered the command`  
+`args: the entire string after the commandname (e.g. .help ping → args:"ping")`  
 
 ##### `addAlias(name)`
-alternative names for the command, which should also trigger it.
+alternative names for the command, which should also trigger it.  
 
 ##### `addUserWhitelist(user)`
-limtes the use of the command to those who are described in the whitelist
-as long as they arent in the blacklist
+limtes the use of the command to those who are described in the whitelist  
+as long as they arent in the blacklist  
 
 ##### `addUserBlacklist(user)`
-disallowes the use of the command to those who are described in the blacklist
-even if they are in a whitelist
+disallowes the use of the command to those who are described in the blacklist  
+even if they are in a whitelist  
 
 ##### `addRoleWhitelist(role)`
-restricts the use of the command to those described in the whitelist.
-as long as they are not blacklisted.
+restricts the use of the command to those described in the whitelist.  
+as long as they are not blacklisted.  
 
 ##### `addRoleBlacklist(role)`
-prohibits the use of the command by those described in the blacklist.
-even if they are on a whitelist.
+prohibits the use of the command by those described in the blacklist.  
+even if they are on a whitelist.  
 
 ##### `enableHelp()`
-adds the .help command
+adds the .help command  
 
 ##### `description`
-description of the command in `.help <command>`
+description of the command in `.help <command>`  
 
 ##### `usage`
-usage-description of the parameters in `.help <command>`
+usage-description of the parameters in `.help <command>`  
 
 ## Class: Script
 ##### `funct`
-the function that gets executed after the client has successfully logged in.
-parameters: `(bot: Client)`
-`Client: the discord client ( + the extended commandhandler )`
+the function that gets executed after the client has successfully logged in.  
+parameters: `(bot: Client)`  
+  
+`Client: the discord client ( + the extended commandhandler )`  
 
 ##### `intervalTime`
 time in ms in which it should be repeated  
-(negative numbers are disabling the repeat, -1 is the default value)
+(negative numbers are disabling the repeat, -1 is the default value)  
 
 
 ## Examples
