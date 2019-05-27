@@ -44,7 +44,7 @@ loads all exported Command-Instances of the given Path
 loads all exported Script-Instances of the given Path and triggers them after the Client had a successful login
 
 ##### `enableDebug()`
-lets every __command__ reload at use, allowes change of files while having the bot running
+lets reloads the sourcefile of a command at use, allowes editing commands while having the bot running
 
 
 ## Class: Command
