@@ -32,60 +32,74 @@ Discord CommandHandler for TypeScript or JavaScript
     - [TypeScript](#typescript)
 
 ## Class: CommandHandler
-The extended discord.js Client
+the extended discord.js Client
 
 ##### `prefix`
-The prefix for the Commands, `.` is default 
+the prefix for the commands, `.` is set by default.
 
 ##### `loadCommands(path)`
-loads all exported Command-Instances of the given Path
+loads all exported command instances of the specified path.
 
 ##### `loadScripts(path)`
-loads all exported Script-Instances of the given Path and triggers them after the Client had a successful login
+loads all exported script instances of the specified path and triggers them after the client has successfully logged in.
 
 ##### `enableHelp()`
 adds the .help command
 
 ##### `enableDebug()`
-lets every __command__ reload at use, allowes change of files while having the bot running
+reloads the source file of a command before execution. allows editing commands while the bot is running.
 
 
 ## Class: Command
 ##### `name`
-The main trigger for the command (without prefix)
+the main trigger for the command (without prefix)  
 
 ##### `funct`
-filled with an function with the parameters `(bot: Client, message: Message, args: string)`
+the function that gets triggered with the call of the command.  
+parameters: `(client: Client, message: Message, args: string)`  
+  
+`Client: the discord client ( + the extended commandhandler )`  
+`Message: the message that triggered the command`  
+`args: the entire string after the commandname (e.g. .help ping → args:"ping")`  
 
 ##### `addAlias(name)`
-Alternative Names for the Command which should trigger the `Command.funct`
+alternative names for the command, which should also trigger it.  
 
 ##### `addUserWhitelist(user)`
-Limtes the Users that can use the command to those who are described in the whitelist
+limtes the use of the command to those who are described in the whitelist  
+as long as they arent in the blacklist  
 
 ##### `addUserBlacklist(user)`
-Without whitelist: everyone is allowed that isn't in described in the blacklist
-With whitelist: only whitelisted are allowed that arent in a blacklist of the command
+disallowes the use of the command to those who are described in the blacklist  
+even if they are in a whitelist  
 
 ##### `addRoleWhitelist(role)`
-Same as addUserWhitelist but with Roles
+restricts the use of the command to those described in the whitelist.  
+as long as they are not blacklisted.  
 
 ##### `addRoleBlacklist(role)`
-Same as addUserBlacklist but with Roles
+prohibits the use of the command by those described in the blacklist.  
+even if they are on a whitelist.  
+
+##### `enableHelp()`
+adds the .help command  
 
 ##### `description`
-description of the command in the .help command
+description of the command in `.help <command>`  
 
 ##### `usage`
-usage-description of the command in the .help command
+usage-description of the parameters in `.help <command>`  
 
 ## Class: Script
 ##### `funct`
-filled with an function with the parameters `(bot: Client)`
+the function that gets executed after the client has successfully logged in.  
+parameters: `(bot: Client)`  
+  
+`Client: the discord client ( + the extended commandhandler )`  
 
 ##### `intervalTime`
 time in ms in which it should be repeated  
-(negative numbers are disabling the repeat, -1 is the default value)
+(negative numbers are disabling the repeat, -1 is the default value)  
 
 
 ## Examples
