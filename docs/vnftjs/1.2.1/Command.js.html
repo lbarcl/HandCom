@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Command.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="CommandHandler.html">CommandHandler</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CommandHandler.html#addCommand">addCommand</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CommandHandler.html#addScript">addScript</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CommandHandler.html#commandListener">commandListener</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CommandHandler.html#enableDebug">enableDebug</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CommandHandler.html#enableHelp">enableHelp</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CommandHandler.html#loadCommands">loadCommands</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CommandHandler.html#loadScripts">loadScripts</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CommandHandler.html#scriptTrigger">scriptTrigger</a></span></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#commandInfo">commandInfo</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#generalInfo">generalInfo</a></span></li>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">Command.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const discord_js_1 = require("discord.js");
+class Command {
+    constructor() {
+        this.alias = [];
+        this.type = "Command";
+        this.description = "*(no description)*";
+        this.usage = "";
+        this.path = "";
+        this.whitelist = {
+            users: [],
+            roles: []
+        };
+        this.blacklist = {
+            users: [],
+            roles: []
+        };
+    }
+    set name(name) {
+        this._name = name;
+    }
+    get name() {
+        return this._name;
+    }
+    addAlias(name) {
+        this.alias.push(name);
+    }
+    set funct(funct) {
+        this._funct = funct;
+    }
+    get funct() {
+        return this._funct;
+    }
+    /**
+     * checks if a author is permitted to use the command
+     * @param author the user that wants to execute the command
+     * @param roles roles of the user that wants to execute the command
+     * @returns {boolean} if the user is permitted to use the command
+     */
+    isPermitted(author, roles) {
+        if (roles) {
+            let hasWhitelist = this.whitelist.users.length > 0 || this.whitelist.roles.length > 0;
+            let hasBlacklist = this.blacklist.users.length > 0 || this.blacklist.roles.length > 0;
+            if (hasWhitelist &amp;&amp; !hasBlacklist) {
+                return this.whitelist.users.some(w => w(author)) || this.whitelist.roles.some(w => roles.some(r => w(r)));
+            }
+            if (!hasWhitelist &amp;&amp; hasBlacklist) {
+                return !(this.blacklist.users.some(w => w(author)) || this.blacklist.roles.some(w => roles.some(r => w(r))));
+            }
+            if (hasWhitelist &amp;&amp; !hasBlacklist) {
+                return ((this.whitelist.users.some(w => w(author)) || this.whitelist.roles.some(w => roles.some(r => w(r)))) &amp;&amp;
+                    !(this.blacklist.users.some(w => w(author)) || this.blacklist.roles.some(w => roles.some(r => w(r)))));
+            }
+            if (!hasWhitelist &amp;&amp; !hasBlacklist) {
+                return true;
+            }
+        }
+        if (!roles) {
+            let hasWhitelist = this.whitelist.users.length > 0;
+            let hasBlacklist = this.blacklist.users.length > 0;
+            if (hasWhitelist &amp;&amp; !hasBlacklist) {
+                return this.whitelist.users.some(w => w(author));
+            }
+            if (!hasWhitelist &amp;&amp; hasBlacklist) {
+                return !this.blacklist.users.some(w => w(author));
+            }
+            if (hasWhitelist &amp;&amp; hasBlacklist) {
+                return this.whitelist.users.some(w => w(author)) &amp;&amp; !this.blacklist.users.some(w => w(author));
+            }
+            if (!hasWhitelist &amp;&amp; !hasBlacklist) {
+                return true;
+            }
+        }
+        return false;
+    }
+    execute(bot, message) {
+        if (this.funct) {
+            let permitted = false;
+            if (message.channel.type == "dm") {
+                permitted = this.isPermitted(message.author);
+            }
+            else if (message.channel.type == "text") {
+                permitted = this.isPermitted(message.member.user, message.member.roles.array());
+            }
+            if (permitted) {
+                console.log(`Executing: `, this);
+                let params = message.content.match(/.*?\s(.*$)/);
+                let args = params ? params[1] : "";
+                this.funct(bot, message, args);
+            }
+            else {
+                console.log(`${message.author.username} is not permitted to use command ${this.name}`);
+            }
+        }
+        else {
+            console.log(`Can't Execute ${this.name}, because it hasn't funct set.`);
+        }
+    }
+    /**
+     * Adds a user to the whitelist of the command.
+     * Once an entry is added to the whitelist, only those in the whitelist are allowed to use the command.
+     * If a user on the whitelist is blacklisted in any way, that user cannot use the command.
+     * @param {userFindFunction} user Function with user as parameter, those that make this function return true are on the whitelist.
+     * @param {User} user The user to be added.
+     * @example
+     * command.addUserWhitelist(u => u.id == "397063436049186818");
+     * @example
+     * // not recommendable, but better understandable
+     * const jeff = client.users.find(u => u.id == "397063436049186818");
+     * command.addUserWhitelist(jeff);
+     */
+    addUserWhitelist(user) {
+        if (user instanceof discord_js_1.User) {
+            let targetId = user.id;
+            user = u => u.id == targetId;
+        }
+        this.whitelist.users.push(user);
+    }
+    /**
+     * Adds a user to the blacklist of the command.
+     * Any user on the blacklist is not allowed to use the command, even if they are whitelisted in any way.
+     * @param {userFindFunction} user Function with user as parameter, those that make this function return true are on the blacklist.
+     * @param {User} user The user to add.
+     * @example
+     * command.addUserBlacklist(u => u.id == "397063436049186818");
+     * @example
+     * // not recommendable, but better understandable
+     * const jeff = client.users.find(u => u.id == "397063436049186818");
+     * command.addUserBlacklist(jeff);
+     */
+    addUserBlacklist(user) {
+        if (user instanceof discord_js_1.User) {
+            let targetId = user.id;
+            user = u => u.id == targetId;
+        }
+        this.blacklist.users.push(user);
+    }
+    /**
+     * Adds a role to the whitelist of the command.
+     * Once an entry is added to the whitelist, only those in the whitelist are allowed to use the command.
+     * If a user on the whitelist is blacklisted in any way, that user cannot use the command.
+     * @param {roleFindFunction} role Function with role as parameter, those with a role that make this function return true are on the whitelist.
+     * @param {Role} role The role that is to be added.
+     * @example
+     * command.addRoleWhitelist(r => r.id == "397063436049186818");
+     */
+    addRoleWhitelist(role) {
+        if (role instanceof discord_js_1.Role) {
+            let targetId = role.id;
+            role = r => r.id == targetId;
+        }
+        this.whitelist.roles.push(role);
+    }
+    /**
+     * Adds a role to the blacklist of the command.
+     * Any user with a blacklisted role is not allowed to use the command, even if they are whitelisted in any way.
+     * @param {roleFindFunction} role Function with role as parameter, those with role that make this function return true are on the blacklist.
+     * @param {Role} role The role that is to be added.
+     * @example
+     * command.addRoleBlacklist(r => r.id == "397063436049186818");
+     */
+    addRoleBlacklist(role) {
+        if (role instanceof discord_js_1.Role) {
+            let targetId = role.id;
+            role = r => r.id == targetId;
+        }
+        this.blacklist.roles.push(role);
+    }
+}
+exports.Command = Command;
+//# sourceMappingURL=Command.js.map</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.2</a> on Mon May 27 2019 00:29:37 GMT+0200 (GMT+02:00) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

@@ -30,7 +30,7 @@ function generalInfo(bot: CommandHandler, message: Message) {
     response.setColor(bot.helpColor);
   }
   for (let command of bot.commands) {
-    let name = command.name ? bot.prefix + command.name : "\u200B";
+    let name = command.name ? `${bot.prefix}**${command.name}**` : "\u200B";
     let description = command.description ? command.description : "\u200B";
     response.addField(name, description);
   }
@@ -51,12 +51,12 @@ function commandInfo(bot: CommandHandler, message: Message, commandname: string)
     if (bot.helpColor) {
       response.setColor(bot.helpColor);
     }
-    response.addField("Alias", command.alias.join(", "));
+    response.addField("Alias", command.alias.join(", ") || `*(no alias)*`);
     response.addField("Description", command.description);
     response.addField("Usage", `${bot.prefix}${command.name} ${command.usage}`);
     message.channel.send("", response);
   } else {
-    message.reply(`command "${bot.prefix}${commandname}" not found.`);
+    message.reply(`command "${bot.prefix}**${commandname}**" not found.`);
   }
 }
 

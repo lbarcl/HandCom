@@ -47,7 +47,7 @@ export class CommandHandler extends Client {
       let isName = c.name.toLowerCase() == commandName;
       return inAlias || isName;
     });
-    if (command && this.debug) {
+    if (command && this.debug && command.path !== "") {
       this.reload(command.path);
       command = this.commands.find(c => {
         let inAlias = c.alias.map(s => s.toLowerCase()).includes(commandName);
@@ -67,7 +67,7 @@ export class CommandHandler extends Client {
   addCommand(command: Command) {
     let name = command.name;
     let alias = command.alias.length > 0 ? ` + ${command.alias.join(", ")}` : "";
-    
+
     console.log(`loading ${name}${alias}`);
     if (!command.funct) {
       console.log(`${name} doesn't have a funct, it doesn't do anything when called!`);
@@ -180,5 +180,4 @@ export class CommandHandler extends Client {
       }
     }
   }
-  
 }

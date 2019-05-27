@@ -26,8 +26,8 @@ export class Command {
     this.alias = [];
     this.type = "Command";
     this.description = "*(no description)*";
-    this.usage = "*(no description)*";
-    this.path = "./";
+    this.usage = "";
+    this.path = "";
 
     this.whitelist = {
       users: [],

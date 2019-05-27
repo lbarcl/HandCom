@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>help.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="CommandHandler.html">CommandHandler</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CommandHandler.html#addCommand">addCommand</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CommandHandler.html#addScript">addScript</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CommandHandler.html#commandListener">commandListener</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CommandHandler.html#enableDebug">enableDebug</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CommandHandler.html#enableHelp">enableHelp</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CommandHandler.html#loadCommands">loadCommands</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CommandHandler.html#loadScripts">loadScripts</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CommandHandler.html#scriptTrigger">scriptTrigger</a></span></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#commandInfo">commandInfo</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#generalInfo">generalInfo</a></span></li>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">help.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const Command_1 = require("./Command");
+const discord_js_1 = require("discord.js");
+const help = new Command_1.Command();
+help.name = "help";
+help.addAlias("info");
+help.description = "gives out general or specific command-infos";
+help.usage = "`[command]` or nothing";
+help.funct = (bot, message, args) => {
+    if (args) {
+        commandInfo(bot, message, args);
+    }
+    else {
+        generalInfo(bot, message);
+    }
+};
+/**
+ * Sends a RichEmbed with all the commands of the bot
+ * @param {CommandHandler} bot the bot of which the commands should be send
+ * @param {message} message the message to which the reply should be made
+ */
+function generalInfo(bot, message) {
+    const response = new discord_js_1.RichEmbed();
+    response.setTitle("Commands");
+    if (bot.helpColor) {
+        response.setColor(bot.helpColor);
+    }
+    for (let command of bot.commands) {
+        let name = command.name ? `${bot.prefix}**${command.name}**` : "\u200B";
+        let description = command.description ? command.description : "\u200B";
+        response.addField(name, description);
+    }
+    message.channel.send("", response);
+}
+/**
+ * Sends a RichEmbed with the details of a command
+ * @param {CommandHandler} bot the bot of which the command should be searched
+ * @param {message} message the message to which the reply should be made
+ * @param {string} commandname the targeted command which should be told about
+ */
+function commandInfo(bot, message, commandname) {
+    const response = new discord_js_1.RichEmbed();
+    const command = bot.commands.find(c => c.name == commandname || c.alias.includes(commandname));
+    if (command) {
+        response.setTitle(`**${bot.prefix}${command.name}**`);
+        if (bot.helpColor) {
+            response.setColor(bot.helpColor);
+        }
+        response.addField("Alias", command.alias.join(", ") || `*(no alias)*`);
+        response.addField("Description", command.description);
+        response.addField("Usage", `${bot.prefix}${command.name} ${command.usage}`);
+        message.channel.send("", response);
+    }
+    else {
+        message.reply(`command "${bot.prefix}**${commandname}**" not found.`);
+    }
+}
+module.exports = help;
+//# sourceMappingURL=help.js.map</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.2</a> on Mon May 27 2019 00:29:37 GMT+0200 (GMT+02:00) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

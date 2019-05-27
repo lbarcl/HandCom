@@ -12,7 +12,8 @@ Discord CommandHandler for TypeScript or JavaScript
     - [prefix](#prefix)
     - [loadCommands(path)](#loadcommandspath)
     - [loadScripts(path)](#loadscriptspath)
-    - WIP [enableDebug()](#enabledebug)
+    - [enableHelp()](#enablehelp)
+    - [enableDebug()](#enabledebug)
   * [Command](#class-command)
     - [name](#name)
     - [funct](#funct)
@@ -21,7 +22,6 @@ Discord CommandHandler for TypeScript or JavaScript
     - [addUserBlacklist(user)](#adduserblacklistuser)
     - [addRoleWhitelist(role)](#addrolewhitelistrole)
     - [addRoleBlacklist(role)](#addroleblacklistrole)
-    - [enableHelp()](#enablehelp)
     - [description](#description)
     - [usage](#usage)
   * [Script](#class-script)
@@ -42,6 +42,9 @@ loads all exported Command-Instances of the given Path
 
 ##### `loadScripts(path)`
 loads all exported Script-Instances of the given Path and triggers them after the Client had a successful login
+
+##### `enableHelp()`
+adds the .help command
 
 ##### `enableDebug()`
 lets every __command__ reload at use, allowes change of files while having the bot running
@@ -69,9 +72,6 @@ Same as addUserWhitelist but with Roles
 
 ##### `addRoleBlacklist(role)`
 Same as addUserBlacklist but with Roles
-
-##### `enableHelp()`
-adds the .help command
 
 ##### `description`
 description of the command in the .help command

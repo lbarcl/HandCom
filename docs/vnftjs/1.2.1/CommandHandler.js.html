@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>CommandHandler.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="CommandHandler.html">CommandHandler</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CommandHandler.html#addCommand">addCommand</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CommandHandler.html#addScript">addScript</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CommandHandler.html#commandListener">commandListener</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CommandHandler.html#enableDebug">enableDebug</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CommandHandler.html#enableHelp">enableHelp</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CommandHandler.html#loadCommands">loadCommands</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CommandHandler.html#loadScripts">loadScripts</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CommandHandler.html#scriptTrigger">scriptTrigger</a></span></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#commandInfo">commandInfo</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#generalInfo">generalInfo</a></span></li>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">CommandHandler.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const discord_js_1 = require("discord.js");
+const vnft_tools_1 = require("vnft-tools");
+const fs = require("fs");
+/**
+ * @extends {Client}
+ */
+class CommandHandler extends discord_js_1.Client {
+    /**
+     * The constructor of the CommandHandler class.
+     * @constructor
+     */
+    constructor() {
+        super();
+        this.commands = [];
+        this.scripts = [];
+        this.prefix = ".";
+        this.debug = false;
+        this.on("message", message => this.commandListener(message));
+        this.on("ready", () => this.scriptTrigger());
+    }
+    /**
+     * Gets executed at each message.
+     * Checks an Message for a Command and executes it if one has been found.
+     * @param {Message} message - The Discord Message that should be checked for a Command.
+     */
+    commandListener(message) {
+        let regexPrefix = this.prefix.replace(/[.*+?^${}()|[\]\\]/g, "\\$&amp;");
+        let requestReg = new RegExp(`^${regexPrefix}(.*?)(\\s|$)`);
+        let request = message.content.match(requestReg);
+        if (!request)
+            return false;
+        let commandName = request[1].toLowerCase();
+        let command = this.commands.find(c => {
+            let inAlias = c.alias.map(s => s.toLowerCase()).includes(commandName);
+            let isName = c.name.toLowerCase() == commandName;
+            return inAlias || isName;
+        });
+        if (command &amp;&amp; this.debug &amp;&amp; command.path !== "") {
+            this.reload(command.path);
+            command = this.commands.find(c => {
+                let inAlias = c.alias.map(s => s.toLowerCase()).includes(commandName);
+                let isName = c.name.toLowerCase() == commandName;
+                return inAlias || isName;
+            });
+        }
+        if (command) {
+            command.execute(this, message);
+        }
+    }
+    /**
+     * Adds a Command to the List of known Commands
+     * @param {Command} command - The Command that should be added.
+     */
+    addCommand(command) {
+        let name = command.name;
+        let alias = command.alias.length > 0 ? ` + ${command.alias.join(", ")}` : "";
+        console.log(`loading ${name}${alias}`);
+        if (!command.funct) {
+            console.log(`${name} doesn't have a funct, it doesn't do anything when called!`);
+        }
+        this.commands.push(command);
+    }
+    /**
+     * Adds a Script to the List of known Scripts. Triggers it if Discord Client already ready.
+     * @param {Script} script - The Script that should be added.
+     */
+    addScript(script) {
+        this.scripts.push(script);
+        if (this.readyTimestamp !== null) {
+            script.trigger(this);
+        }
+    }
+    /**
+     * Triggers all scripts that hasn't been triggered yet
+     */
+    scriptTrigger() {
+        let notTriggeredScripts = this.scripts.filter(s => s.triggered == false);
+        for (let script of notTriggeredScripts) {
+            script.trigger(this);
+        }
+    }
+    /**
+     * Loads all exported Commands inside of the given Path
+     * (goes also through the subfolders)
+     * @param target_path - The Path that should be crawled for exported Commands
+     * @example
+     * const path = require("path");
+     * client.loadCommands(path.join(__dirname,"commands"));
+     */
+    loadCommands(target_path) {
+        let exists = fs.existsSync(target_path);
+        if (!exists)
+            return false;
+        let isDir = fs.statSync(target_path).isDirectory();
+        if (isDir) {
+            let allJS = vnft_tools_1.fetchJS(target_path);
+            for (let file of allJS) {
+                let commands = require(file);
+                if (!Array.isArray(commands)) {
+                    commands = [commands];
+                }
+                for (let command of commands) {
+                    if (command.type == "Command") {
+                        command.path = file;
+                        this.addCommand(command);
+                    }
+                }
+            }
+        }
+    }
+    /**
+     * Adds all exported Scripts inside of the given Path
+     * @param target_path - The Path that should be crawled for exported Scripts
+     */
+    loadScripts(target_path) {
+        let exists = fs.existsSync(target_path);
+        if (!exists)
+            return false;
+        let isDir = fs.statSync(target_path).isDirectory();
+        if (isDir) {
+            let allJS = vnft_tools_1.fetchJS(target_path);
+            for (let file of allJS) {
+                let scripts = require(file);
+                if (!Array.isArray(scripts)) {
+                    scripts = [scripts];
+                }
+                for (let script of scripts) {
+                    if (script.type == "Script") {
+                        this.addScript(script);
+                    }
+                }
+            }
+        }
+    }
+    /**
+     * adds the .help command
+     */
+    enableHelp() {
+        this.addCommand(require("./help"));
+    }
+    /**
+     * turns debug mode on
+     */
+    enableDebug() {
+        this.debug = true;
+    }
+    reload(file) {
+        delete require.cache[require.resolve(file)];
+        this.commands = this.commands.filter(c => c.path != file);
+        let commands = require(file);
+        if (!Array.isArray(commands)) {
+            commands = [commands];
+        }
+        for (let command of commands) {
+            if (command.type == "Command") {
+                command.path = file;
+                this.addCommand(command);
+            }
+        }
+    }
+}
+exports.CommandHandler = CommandHandler;
+//# sourceMappingURL=CommandHandler.js.map</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.2</a> on Mon May 27 2019 00:29:37 GMT+0200 (GMT+02:00) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>
