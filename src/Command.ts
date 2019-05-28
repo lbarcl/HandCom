@@ -16,7 +16,7 @@ export class Command {
   _funct: CommandFunction;
   type: string;
   description: string;
-  usage: string;
+  _usage: string;
   path: string;
 
   whitelist: permissionlist;
@@ -39,6 +39,9 @@ export class Command {
     };
   }
 
+  /**
+   * the main call for the command
+   */
   set name(name: string) {
     this._name = name;
   }
@@ -46,8 +49,26 @@ export class Command {
     return this._name;
   }
 
-  addAlias(name: string) {
-    this.alias.push(name);
+  /**
+   * how the parameters are used in this command
+   */
+  set usage(usage: string) {
+    this._usage = usage;
+  }
+  get usage(): string {
+    return this._usage;
+  }
+
+  /**
+   * adds alternative calls for the command (repeatable as often as desired)
+   */
+  addAlias(names: string | string[]) {
+    if(!Array.isArray(names)){
+      names = [names]
+    }
+    for(let name of names){
+      this.alias.push(name);
+    }
   }
 
   /**
