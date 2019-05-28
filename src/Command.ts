@@ -63,20 +63,20 @@ export class Command {
    * adds alternative calls for the command (repeatable as often as desired)
    */
   addAlias(names: string | string[]) {
-    if(!Array.isArray(names)){
-      names = [names]
+    if (!Array.isArray(names)) {
+      names = [names];
     }
-    for(let name of names){
+    for (let name of names) {
       this.alias.push(name);
     }
   }
 
   /**
-   * the function that gets triggered with the call of the command.  
-   * @param {CommandFunction} funct function with the parameters:  
-   * **client:** the discord client ( / extended to commandhandler )   
-   * **message:** the message that triggered the command   
-   * **args:** the entire string after the commandname (e.g. .help ping → args:"ping")   
+   * the function that gets triggered with the call of the command.
+   * @param {CommandFunction} funct function with the parameters:
+   * * **client:** the discord client ( / extended to commandhandler )
+   * * **message:** the message that triggered the command
+   * * **args:** the entire string after the commandname (e.g. .help ping → args:"ping")
    */
   set funct(funct: CommandFunction) {
     this._funct = funct;
