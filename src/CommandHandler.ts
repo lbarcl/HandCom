@@ -76,7 +76,7 @@ export class CommandHandler extends Client {
   }
 
   /**
-   * Adds a Script to the List of known Scripts. Triggers it if Discord Client already ready.
+   * Adds a Script to the List of known Scripts. Instantly triggers it if the Discord Client has already logged in.
    * @param {Script} script - The Script that should be added.
    */
   addScript(script: Script) {

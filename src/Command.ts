@@ -50,6 +50,13 @@ export class Command {
     this.alias.push(name);
   }
 
+  /**
+   * the function that gets triggered with the call of the command.  
+   * @param {CommandFunction} funct function with the parameters:  
+   * **client:** the discord client ( / extended to commandhandler )   
+   * **message:** the message that triggered the command   
+   * **args:** the entire string after the commandname (e.g. .help ping → args:"ping")   
+   */
   set funct(funct: CommandFunction) {
     this._funct = funct;
   }
