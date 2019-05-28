@@ -84,6 +84,9 @@ even if they are on a whitelist.
 ##### `enableHelp()`
 adds the .help command  
 
+##### `helpColor`  
+sets the color of the richEmbed at the help reply
+
 ##### `description`
 description of the command in `.help <command>`  
 
