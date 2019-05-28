@@ -58,9 +58,9 @@ the main trigger for the command (without prefix)
 the function that gets triggered with the call of the command.  
 parameters: `(client: Client, message: Message, args: string)`  
   
-`Client: the discord client ( + the extended commandhandler )`  
-`Message: the message that triggered the command`  
-`args: the entire string after the commandname (e.g. .help ping → args:"ping")`  
+**Client:** the discord client ( + the extended commandhandler )   
+**Message:** the message that triggered the command   
+**args:** the entire string after the commandname (e.g. .help ping → args:"ping")   
 
 ##### `addAlias(name)`
 alternative names for the command, which should also trigger it.  
