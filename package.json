@@ -34,6 +34,7 @@
     "@types/mocha": "^5.2.7",
     "jsdoc": "^3.6.2",
     "minami": "^1.2.3",
-    "mocha": "^6.1.4"
+    "mocha": "^6.1.4",
+    "typescript": "^3.5.1"
   }
 }
