@@ -2,10 +2,11 @@
   "name": "vnftjs",
   "version": "1.2.2",
   "description": "Discord CommandHandler for TypeScript or JavaScript",
-  "main": "lib",
-  "types": "lib",
+  "main": "lib/src",
+  "types": "lib/src",
   "scripts": {
-    "test": "rm -rf lib && tsc && node ./lib/secret.test.js",
+    "test": "mocha lib/test --timeout 60000",
+    "secret": "rm -rf lib && tsc && node ./lib/src/secret.test.js",
     "prettier": "prettier --print-width 120 --write ./src/{*,*/*,*/*/*,*/*/*/*}.ts",
     "generate-docs": "node_modules/.bin/jsdoc --configure .jsdoc.json --verbose",
     "build": "rm -rf lib && tsc"
@@ -24,13 +25,15 @@
   ],
   "author": "VonFriedricht",
   "license": "ISC",
-  "runkitExampleFilename": "./docs/examples/runkit.ts",
+  "runkitExampleFilename": "./docs/runkit/runkit.ts",
   "dependencies": {
     "discord.js": "^11.5.0",
     "vnft-tools": "^1.0.9-b"
   },
   "devDependencies": {
+    "@types/mocha": "^5.2.7",
     "jsdoc": "^3.6.2",
-    "minami": "^1.2.3"
+    "minami": "^1.2.3",
+    "mocha": "^6.1.4"
   }
 }
