@@ -5,7 +5,7 @@ export type ScriptFunction = (bot: Client) => any;
 export class Script {
   funct: ScriptFunction;
   intervalTime: number;
-  interval: NodeJS.Timeout;
+  intervalId: NodeJS.Timeout;
   type: String;
   triggered: boolean;
 
@@ -23,9 +23,19 @@ export class Script {
     if (this.triggered == false && this.funct) {
       this.funct(bot);
       if (this.intervalTime >= 0) {
-        this.interval = setInterval(this.funct, this.intervalTime, bot);
+        this.intervalId = setInterval(this.funct, this.intervalTime, bot);
       }
       this.triggered = true;
     }
+  }
+
+  stop() {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
+  }
+
+  set interval(time: number) {
+    this.intervalTime = time;
   }
 }

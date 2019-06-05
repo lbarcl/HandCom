@@ -33,6 +33,6 @@ describe("setup", async () => {
   });
 
   after(() => {
-    client.destroy();
+    client.full_destroy();
   });
 });

@@ -180,4 +180,11 @@ export class CommandHandler extends Client {
       }
     }
   }
+
+  full_destroy() {
+    this.destroy();
+    for (let script of this.scripts) {
+      script.stop();
+    }
+  }
 }
