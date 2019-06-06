@@ -26,7 +26,7 @@ Discord CommandHandler for TypeScript or JavaScript
     - [usage](#usage)
   * [Script](#class-script)
     - [funct](#funct-1)
-    - [intervalTime](#intervaltime)
+    - [interval](#interval)
 * [Examples](#examples)
     - [JavaScript](#javascipt)
     - [TypeScript](#typescript)
@@ -58,7 +58,7 @@ the main trigger for the command (without prefix)
 the function that gets triggered with the call of the command.  
 parameters: `(client: Client, message: Message, args: string)`  
   
-**Client:** the discord client ( + the extended commandhandler )   
+**Client:** the discord client ( extended with the commandhandler )   
 **Message:** the message that triggered the command   
 **args:** the entire string after the commandname (e.g. .help ping → args:"ping")   
 
@@ -66,8 +66,8 @@ parameters: `(client: Client, message: Message, args: string)`
 alternative names for the command, which should also trigger it.  
 
 ##### `addUserWhitelist(user)`
-limtes the use of the command to those who are described in the whitelist  
-as long as they arent in the blacklist  
+limites the use of the command to those who are described in the whitelist  
+as long as they are not in the blacklist  
 
 ##### `addUserBlacklist(user)`
 disallowes the use of the command to those who are described in the blacklist  
@@ -98,10 +98,10 @@ usage-description of the parameters in `.help <command>`
 the function that gets executed after the client has successfully logged in.  
 parameters: `(bot: Client)`  
   
-`Client: the discord client ( + the extended commandhandler )`  
+**Client:** the discord client ( extended with the commandhandler )  
 
-##### `intervalTime`
-time in ms in which it should be repeated  
+##### `interval`
+time in ms in which the script-function should be repeated  
 (negative numbers are disabling the repeat, -1 is the default value)  
 
 
