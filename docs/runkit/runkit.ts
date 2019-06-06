@@ -1,4 +1,4 @@
-const { CommandHandler, Command } = require("vnftjs");
+const { CommandHandler, Command, Script } = require("vnftjs");
 const axios = require("axios");
 
 // initialisation
@@ -26,6 +26,13 @@ neko.funct = async (bot, message, args) => {
   message.reply(meow.data.file);
 };
 
+// dnd at start of bot
+const dndStatus = new Script();
+
+dndStatus.funct = client => {
+  client.user.setStatus("dnd");
+}
+
 // !help
 client.enableHelp();
 client.helpColor = "GREEN";
@@ -33,5 +40,6 @@ client.helpColor = "GREEN";
 // this simulates client.loadCommands(path)
 client.addCommand(pingCommand);
 client.addCommand(neko);
+client.addScript(status);
 
 client.login(Discord_Token);
