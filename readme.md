@@ -117,7 +117,7 @@ time in ms in which the script-function should be repeated
 │   ├── neko.js
 │   └── setActivity.js
 └── scripts/
-    ├── tbd
+    ├── startAsDnd.js
     └── tbd
 ``` 
 #### Code
@@ -141,7 +141,7 @@ const { Command } = require("vnftjs");
 const pingCommand = new Command();
 pingCommand.name = "ping";
 
-pingCommand.funct = (bot, message, args) => {
+pingCommand.funct = (client, message, args) => {
   message.reply("Pong!");
 };
 
@@ -161,7 +161,7 @@ neko.addAlias("cat");
 neko.description = "Sends a picture of a cat";
 neko.usage = "";
 
-neko.funct = async (bot, message, args) => {
+neko.funct = async (client, message, args) => {
   var meow = await axios.get("http://aws.random.cat/meow");
   message.reply(meow.data.file);
 };
@@ -180,12 +180,25 @@ activity.addAlias("activity");
 // ↓ only the user with the id "397063436049186818" can now execute this command
 activity.addUserWhitelist(u => u.id == "397063436049186818");
 
-activity.funct = async (bot, message, args) => {
-  await bot.user.setActivity(args);
+activity.funct = async (client, message, args) => {
+  await client.user.setActivity(args);
   message.reply(`Status Updated`);
 };
 
 module.exports = activity;
+```
+
+##### scripts/startAsDnd.js
+```ts
+const { Script } = require("vnftjs");
+
+const status = new Script();
+
+status.funct = client => {
+  client.user.setStatus("dnd");
+}
+
+module.exports = status;
 ```
 
 ### **TypeScript**
@@ -198,7 +211,7 @@ src/
 │   ├── neko.ts
 │   └── setActivity.ts
 └── scripts/
-    ├── tbd
+    ├── startAsDnd.ts
     └── tbd
 ``` 
 #### Code
@@ -228,7 +241,7 @@ ping.funct = (bot: Client, message: Message, args: string) => {
   message.reply("Pong");
 };
 
-module.exports = ping;
+export = ping;
 ```
 
 ##### commands/neko.ts
@@ -250,7 +263,7 @@ neko.funct = async (bot: Client, message: Message, args: string) => {
   message.reply(meow.data.file);
 };
 
-module.exports = neko;
+export = neko;
 ```
 
 ##### commands/setActivity.ts
@@ -270,5 +283,18 @@ activity.funct = async (bot: Client, message: Message, args: string) => {
   message.reply(`Activity Updated!`);
 };
 
-module.exports = activity;
+export = activity;
+```
+
+##### scripts/startAsDnd.ts
+```ts
+import { Script } from "vnftjs";
+
+const status = new Script();
+
+status.funct = client => {
+  client.user.setStatus("dnd");
+}
+
+export = status;
 ```
