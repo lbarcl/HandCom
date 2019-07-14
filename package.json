@@ -27,14 +27,14 @@
   "license": "ISC",
   "runkitExampleFilename": "./docs/runkit/runkit.ts",
   "dependencies": {
-    "discord.js": "^11.5.0",
-    "vnft-tools": "^1.0.9-b"
+    "discord.js": "^11.5.1",
+    "vnft-tools": "^1.2.1"
   },
   "devDependencies": {
     "@types/mocha": "^5.2.7",
     "jsdoc": "^3.6.2",
     "minami": "^1.2.3",
     "mocha": "^6.1.4",
-    "typescript": "^3.5.1"
+    "typescript": "^3.5.3"
   }
 }
