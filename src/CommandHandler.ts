@@ -3,6 +3,7 @@ import { Command } from "./Command";
 import { Script } from "./Script";
 import { fetchJS } from "vnft-tools";
 import * as fs from "fs";
+import * as path from "path";
 
 /**
  * @extends {Client}
@@ -108,6 +109,10 @@ export class CommandHandler extends Client {
     let exists = fs.existsSync(target_path);
     if (!exists) return false;
 
+    if (target_path.match(/^\.\//)) {
+      target_path = path.join(__dirname, target_path.replace(/^\.\//, ""));
+    }
+
     let isDir = fs.statSync(target_path).isDirectory();
     if (isDir) {
       let allJS = fetchJS(target_path);
@@ -134,6 +139,10 @@ export class CommandHandler extends Client {
     let exists = fs.existsSync(target_path);
     if (!exists) return false;
 
+    if (target_path.match(/^\.\//)) {
+      target_path = path.join(__dirname, target_path.replace(/^\.\//, ""));
+    }
+    
     let isDir = fs.statSync(target_path).isDirectory();
     if (isDir) {
       let allJS = fetchJS(target_path);
