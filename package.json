@@ -1,6 +1,6 @@
 {
   "name": "vnftjs",
-  "version": "1.2.6",
+  "version": "1.2.7",
   "description": "Discord CommandHandler for TypeScript or JavaScript",
   "main": "lib/src",
   "types": "lib/src",

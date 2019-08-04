@@ -110,7 +110,7 @@ export class CommandHandler extends Client {
     if (!exists) return false;
 
     if (target_path.match(/^\.\//)) {
-      target_path = path.join(__dirname, target_path.replace(/^\.\//, ""));
+      target_path = path.join(process.cwd(), target_path.replace(/^\.\//, ""));
     }
 
     let isDir = fs.statSync(target_path).isDirectory();
@@ -140,7 +140,7 @@ export class CommandHandler extends Client {
     if (!exists) return false;
 
     if (target_path.match(/^\.\//)) {
-      target_path = path.join(__dirname, target_path.replace(/^\.\//, ""));
+      target_path = path.join(process.cwd(), target_path.replace(/^\.\//, ""));
     }
     
     let isDir = fs.statSync(target_path).isDirectory();
