@@ -142,7 +142,7 @@ export class CommandHandler extends Client {
     if (target_path.match(/^\.\//)) {
       target_path = path.join(process.cwd(), target_path.replace(/^\.\//, ""));
     }
-    
+
     let isDir = fs.statSync(target_path).isDirectory();
     if (isDir) {
       let allJS = fetchJS(target_path);

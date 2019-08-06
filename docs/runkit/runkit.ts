@@ -31,7 +31,7 @@ const dndStatus = new Script();
 
 dndStatus.funct = client => {
   client.user.setStatus("dnd");
-}
+};
 
 // !help
 client.enableHelp();
