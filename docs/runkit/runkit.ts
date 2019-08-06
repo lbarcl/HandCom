@@ -9,27 +9,27 @@ const Discord_Token = "Discord Token";
 client.prefix = "!";
 
 // !ping
-const pingCommand = new Command();
-pingCommand.name = "ping";
-pingCommand.funct = (bot, message, args) => {
+const command = new Command();
+command.name = "ping";
+command.funct = (bot, message, args) => {
   message.reply("Pong!");
 };
 
 // !neko or !cat
-const neko = new Command();
-neko.name = "neko";
-neko.addAlias("cat");
-neko.description = "replies a random cat image with the help of random.cat";
-neko.usage = "";
-neko.funct = async (bot, message, args) => {
+const command2 = new Command();
+command2.name = "neko";
+command2.addAlias("cat");
+command2.description = "replies a random cat image with the help of random.cat";
+command2.usage = "";
+command2.funct = async (bot, message, args) => {
   var meow = await axios.get("http://aws.random.cat/meow");
   message.reply(meow.data.file);
 };
 
 // dnd at start of bot
-const dndStatus = new Script();
+const script = new Script();
 
-dndStatus.funct = client => {
+script.funct = client => {
   client.user.setStatus("dnd");
 };
 
@@ -38,8 +38,8 @@ client.enableHelp();
 client.helpColor = "GREEN";
 
 // this simulates client.loadCommands(path)
-client.addCommand(pingCommand);
-client.addCommand(neko);
-client.addScript(status);
+client.addCommand(command);
+client.addCommand(command2);
+client.addScript(script);
 
 client.login(Discord_Token);
