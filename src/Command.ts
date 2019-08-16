@@ -144,9 +144,11 @@ export class Command {
       }
       if (permitted) {
         console.log(`Executing: `, this);
-        let params = message.content.match(/.*?\s(.*$)/);
-        let args: string = params ? params[1] : "";
-        this.funct(bot, message, args);
+        let contentLinebreakCheesed = message.content.replace(/\n/g," $VlINEbREAK ")
+        let params = contentLinebreakCheesed.match(/.*?\s(.*$)/);
+        let argsCheesed: string = params ? params[1] : "";
+        let argsUnCheesed = argsCheesed.replace(/(|\ )\$VlINEbREAK\ /g,"\n")
+        this.funct(bot, message, argsUnCheesed);
       } else {
         console.log(`${message.author.username} is not permitted to use command ${this.name}`);
       }
