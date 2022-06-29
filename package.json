@@ -10,7 +10,7 @@
     "dist"
   ],
   "scripts": {
-    "test": "tsc -build&&node ./dist/test",
+    "test": "tsc -build&&node ./dist/testBot",
     "roll": "rollup -c"
   },
   "keywords": [],
