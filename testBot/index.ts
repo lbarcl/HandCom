@@ -19,4 +19,4 @@ client.on('ready', () => {
     commandHandler.addEvent(event);
 });
 
-client.login('ODEwNjA5MjYxMzM5MjEzODg0.GEmzfF.wtbvuyD8dQ9b-3hr3vdX2J5P5Y63NYRL7hwQHs');
+client.login('YOUR TOKEN');
