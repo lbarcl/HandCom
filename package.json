@@ -1,40 +1,27 @@
 {
-  "name": "vnftjs",
-  "version": "1.2.10",
-  "description": "Discord CommandHandler for TypeScript or JavaScript",
-  "main": "lib/src",
-  "types": "lib/src",
-  "scripts": {
-    "test": "npm run build && mocha lib/test --timeout 60000",
-    "secret": "rm -rf lib && tsc && node ./lib/src/secret.test.js",
-    "prettier": "prettier --print-width 120 --write ./{*,*/*,*/*/*,*/*/*/*}.ts",
-    "generate-docs": "node_modules/.bin/jsdoc --configure .jsdoc.json --verbose",
-    "build": "rm -rf lib && tsc"
+  "name": "simple-handler",
+  "version": "1.0.0",
+  "description": "Simple and fast command handler for discord.js",
+  "exports": {
+    "import": "./dist/es/index.es.min.js",
+    "require": "./dist/cjs/index.cjs.min.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/VonFriedricht/vnftjs.git"
-  },
-  "keywords": [
-    "discord",
-    "bot",
-    "node",
-    "discordapp",
-    "command",
-    "commandhandler"
+  "files": [
+    "dist"
   ],
-  "author": "VonFriedricht",
-  "license": "ISC",
-  "runkitExampleFilename": "./docs/runkit/runkit.ts",
-  "dependencies": {
-    "discord.js": "^11.5.1",
-    "vnft-tools": "^1.2.1"
+  "scripts": {
+    "test": "tsc -build&&node ./dist/test",
+    "roll": "rollup -c"
   },
+  "keywords": [],
+  "author": "lbarcl",
+  "license": "ISC",
   "devDependencies": {
-    "@types/mocha": "^5.2.7",
-    "jsdoc": "^3.6.2",
-    "minami": "^1.2.3",
-    "mocha": "^6.1.4",
-    "typescript": "^3.5.3"
+    "@rollup/plugin-babel": "^5.3.1",
+    "@rollup/plugin-commonjs": "^22.0.1",
+    "discord.js": "^13.8.1",
+    "rollup": "^2.75.7",
+    "rollup-plugin-typescript2": "^0.32.1",
+    "typescript": "^4.7.4"
   }
 }
