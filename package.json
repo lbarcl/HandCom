@@ -1,7 +1,7 @@
 {
-  "name": "simple-handler",
+  "name": "handcom",
   "version": "1.0.0",
-  "description": "Simple and fast command handler for discord.js",
+  "description": "Simple and Object Oriented command handler for discord.js",
   "exports": {
     "import": "./dist/es/index.es.min.js",
     "require": "./dist/cjs/index.cjs.min.js"
@@ -19,7 +19,7 @@
   "devDependencies": {
     "@rollup/plugin-babel": "^5.3.1",
     "@rollup/plugin-commonjs": "^22.0.1",
-    "discord.js": "^13.8.1",
+    "discord.js": "^13.11.0",
     "rollup": "^2.75.7",
     "rollup-plugin-typescript2": "^0.32.1",
     "typescript": "^4.7.4"

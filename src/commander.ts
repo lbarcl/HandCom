@@ -13,7 +13,7 @@ class CommandHandler {
     constructor(client: Client, options?: { prefix?: string, messageEvent?: string }) {
         this.client = client;
         this.prefix = options?.prefix || '!';
-        this.client.on(options?.messageEvent || 'messageCreate', (message) => this.commandListener(message));
+        this.client.on(options?.messageEvent || 'messageCreate', (message: Message) => this.commandListener(message));
     }
 
     commandListener(message: Message) {
@@ -52,6 +52,7 @@ class CommandHandler {
                 let commands: Command | Command[] = require(file);
                 this.addCommand(commands);
             }
+            console.log(`Total of ${allJS.length} commands registered`)
         }
     }
 
@@ -64,13 +65,13 @@ class CommandHandler {
         if (command instanceof Array) {
             this.commands.push(...command);
             command.forEach(cmd => { 
-                console.log(`Command ${cmd.name} loaded`);
+               // console.log(`Command ${cmd.name} loaded`);
             })
         }
         else {
-            console.log(command);
+            // console.log(command);
             this.commands.push(command);
-            console.log(`Command ${command.name} loaded`);
+            // console.log(`Command ${command.name} loaded`);
         }
     }
 
@@ -97,6 +98,7 @@ class CommandHandler {
                 let events: Event | Event[] = require(file);
                 this.addEvent(events);
             }
+            console.log(`Total of ${allJS.length} events registered`)
         }
     }
     

@@ -14,7 +14,7 @@ class Event {
         if (this.EventRegister) {
             this.EventRegister(client, Instance);
         } else {
-            throw new Error('No function set for this command');
+            throw new Error('No function set for this event');
         }
     }
 }
