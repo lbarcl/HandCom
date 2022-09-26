@@ -1,8 +1,9 @@
-import * as Command from './command';
-import * as Event from './event';
-import { fetchJS } from './utils';
+import {Command} from './command';
+import {Event} from './event';
 import { CommandHandler } from './commander';
 
 export {
-    Command, CommandHandler, fetchJS, Event 
+    CommandHandler as HandCom,
+    Command,
+    Event
 };

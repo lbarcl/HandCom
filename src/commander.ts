@@ -49,15 +49,17 @@ class CommandHandler {
         if (isDir) {
             let allJS = fetchJS(target_path);
             for (let file of allJS) {
-                let commands: Command | Command[] = require(file);
-                this.addCommand(commands);
+                this.loadCommand(file);
             }
             console.log(`Total of ${allJS.length} commands registered`)
         }
     }
 
     loadCommand(commandPath: string) {
-        let command: Command | Command[] = require(commandPath);
+        let command = require(commandPath);
+        if (command.default && Object.keys(command).length === 1) {
+            command = command.default
+        }
         this.addCommand(command);
     }
 
@@ -95,16 +97,18 @@ class CommandHandler {
         if (isDir) {
             let allJS = fetchJS(target_path);
             for (let file of allJS) {
-                let events: Event | Event[] = require(file);
-                this.addEvent(events);
+                this.loadEvent(file);
             }
             console.log(`Total of ${allJS.length} events registered`)
         }
     }
     
     loadEvent(eventPath: string) {
-        let command: Command | Command[] = require(eventPath);
-        this.addCommand(command);
+        let event = require(eventPath);
+        if (event.default && Object.keys(event).length === 1) {
+            event = event.default
+        }
+        this.addEvent(event);
     }
 
     addEvent(event: Event | Event[]) { 

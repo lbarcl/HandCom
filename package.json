@@ -1,6 +1,6 @@
 {
   "name": "handcom",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Simple and Object Oriented command handler for discord.js",
   "exports": {
     "import": "./dist/es/index.es.min.js",
@@ -23,5 +23,13 @@
     "rollup": "^2.75.7",
     "rollup-plugin-typescript2": "^0.32.1",
     "typescript": "^4.7.4"
-  }
+  }, 
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lbarcl/HandCom.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lbarcl/HandCom/issues"
+  },
+  "homepage": "https://github.com/lbarcl/HandCom#readme"
 }
