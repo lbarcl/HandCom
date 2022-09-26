@@ -2,16 +2,13 @@
   "name": "handcom",
   "version": "1.0.2",
   "description": "Simple and Object Oriented command handler for discord.js",
-  "exports": {
-    "import": "./dist/es/index.es.min.js",
-    "require": "./dist/cjs/index.cjs.min.js"
-  },
   "files": [
     "dist"
   ],
+  "main": ".dist/index.js",
+  "types": ".typings/index.d.ts"
   "scripts": {
-    "test": "tsc -build&&node ./dist/testBot",
-    "roll": "rollup -c"
+    "build": "tsc"
   },
   "keywords": [],
   "author": "lbarcl",
