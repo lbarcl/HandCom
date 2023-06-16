@@ -2,8 +2,9 @@ import {Command} from './command';
 import {Event} from './event';
 import { CommandHandler } from './commander';
 
+export default CommandHandler;
+
 export {
-    CommandHandler as HandCom,
     Command,
     Event
 };
