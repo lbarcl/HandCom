@@ -1,7 +1,6 @@
-import { Client } from 'discord.js';
 import { CommandHandler } from './commander';
-
-type EventFunction = (client: Client, Instance: CommandHandler) => void;
+import { EventFunction } from './utils';
+import { Client } from 'discord.js';
 
 class Event {
     EventRegister: EventFunction | undefined;
@@ -11,12 +10,12 @@ class Event {
     }
 
     run(client: Client, Instance: CommandHandler) {
-        if (this.EventRegister) {
-            this.EventRegister(client, Instance);
-        } else {
+        if (!this.EventRegister) {
             throw new Error('No function set for this event');
-        }
+        } 
+
+        this.EventRegister(client, Instance);
     }
 }
 
-export { Event, EventFunction };
+export { Event };

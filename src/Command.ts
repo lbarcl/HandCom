@@ -1,76 +1,50 @@
-import { Client, Message } from 'discord.js';
-import { CommandHandler } from './commander';
+import { LegacyCommandFunction, LegacyCommandOptions, LegacyCommandObject } from './utils';
 
-interface CommandFunctionOptions {
-    message: Message;
-    args: string[];
-    client: Client;
-    instance: CommandHandler;
-}
-type CommandFunction = (options: CommandFunctionOptions) => void;
 
-interface CommandOptions {
-    description?: string;
-    usage?: string;
-    aliases?: string[];
-}
-
-class Command {
-    name: string;
+export class Command {
+    private name: string;
     private description: string;
     private usage: string;
     private aliases: string[];
-    private func: CommandFunction | undefined;
-    constructor(name: string, options?: CommandOptions) {
+    private legacyCommandFunction: LegacyCommandFunction | undefined;
+
+    constructor(name: string, options?: LegacyCommandOptions) {
         this.name = name;
         this.description = options?.description ||'No description for this command';
         this.usage = options?.usage || 'No usage for this command';
         this.aliases = options?.aliases || [];
-        
-        this.func = undefined;
     }
 
+    setFunction(legacyCommandFunction: LegacyCommandFunction) {
+        this.legacyCommandFunction = legacyCommandFunction;
+    }
+
+    addDescription(description: string) {
+        this.description = description;
+    }
+    
+    addUsage(usage: string) {
+        this.usage = usage;
+    }
+    
     addAlias(alias: string | string[]) {
         if (alias instanceof Array) { this.aliases.push(...alias); }
         else { this.aliases.push(alias); }
     }
 
-    run(client: Client, Instance: CommandHandler, message: Message, args: string[]) {
-        if (this.func) {
-            this.func({
-                message,
-                args,
-                client,
-                instance: Instance
-            });
-        } else {
+    getCommandObject(): LegacyCommandObject {
+        if (!this.legacyCommandFunction) {
             throw new Error('No function set for this command');
         }
-    }
 
-    set Func(func: CommandFunction) {
-        this.func = func;
-    }
+        const commandObject = {
+            name: this.name,
+            usage: this.usage,
+            aliases: this.aliases,
+            description: this.description,
+            function: this.legacyCommandFunction
+        }
 
-    get Usage() {
-        return this.usage;
-    }
-
-    set Usage(usage: string) {
-        this.usage = usage;
-    }
-
-    get Description() {
-        return this.description;
-    }
-
-    set Description(description: string) {
-        this.description = description;
-    }
-
-    get Aliases() {
-        return this.aliases;
+        return commandObject;
     }
 }
-
-export { Command, CommandOptions, CommandFunction, CommandFunctionOptions };

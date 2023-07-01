@@ -1,126 +1,133 @@
-import { Client, Message } from 'discord.js';
+import { LegacyCommandObject, fetchJS } from './utils';
+import { Client, Interaction, Message, Routes } from 'discord.js';
+import { ApplicationCommand } from './ApplicationCommand';
 import { Command } from './command';
 import { Event } from './event';
-import { fetchJS } from './utils';
-import * as fs from 'fs';
 import * as path from 'path';
+import * as fs from 'fs';
 
 class CommandHandler {
-    commands: Command[] = [];
-    client: Client;
-    prefix: string;
+	applicationCommand: Array<ApplicationCommand> = [];
+	commands: Array<LegacyCommandObject> = [];
+	client: Client;
+	prefix: string;
 
-    constructor(client: Client, options?: { prefix?: string, messageEvent?: string }) {
-        this.client = client;
-        this.prefix = options?.prefix || '!';
-        this.client.on(options?.messageEvent || 'messageCreate', (message: Message) => this.commandListener(message));
-    }
+	constructor(client: Client, options?: { prefix?: string, messageEvent?: string }) {
+		this.client = client;
+		this.prefix = options?.prefix || '!';
+		this.client.on(options?.messageEvent || 'messageCreate', (message: Message) => this.legacyCommandListener(message));
+		this.client.on("interactionCreate", (interaction) => this.applicationCommandListener(interaction));
+	}
 
-    commandListener(message: Message) {
-        if (message.content.slice(0, this.prefix.length) == this.prefix) {
-            let command = message.content.split(' ')[0].slice(this.prefix.length);
-            let args = message.content.split(' ').slice(1);
-            console.log(command, args);
-            this.commands.forEach(cmd => {
-                if (cmd.name === command || cmd.Aliases?.includes(command)) {
-                    cmd.run(this.client, this, message, args);
-                }
-            });
-        }
-    }
+	private legacyCommandListener(message: Message) {
+		if (message.content.startsWith(this.prefix)) {
+			const [command, ...args] = message.content.slice(this.prefix.length).split(' ');
 
-    /**
-    * Loads all exported Commands inside of the given Path
-    * (goes also through the subfolders)
-    * @param target_path - The Path that should be crawled for exported Commands
-    * @example
-    * const path = require("path");
-    * client.loadCommands(path.join(__dirname,"commands"));
-    */
-    loadCommands(target_path: string) {
-        let exists = fs.existsSync(target_path);
-        if (!exists) return false;
+			this.commands.forEach((commandObject) => {
+				if (commandObject.name === command || (commandObject.aliases && commandObject.aliases.includes(command))) {
+					commandObject.function({ client: this.client, instance: this, message, args });
+				}
+			});
+		}
+	}
 
-        if (target_path.match(/^\.\//)) {
-            target_path = path.join(process.cwd(), target_path.replace(/^\.\//, ""));
-        }
+	private applicationCommandListener(interaction: Interaction) {
+		if (interaction.isCommand()) {
+			const commandName = interaction.commandName;
+			const commandGuildId = interaction.guildId;
+			const isGlobal = commandGuildId == null;
 
-        let isDir = fs.statSync(target_path).isDirectory();
-        if (isDir) {
-            let allJS = fetchJS(target_path);
-            for (let file of allJS) {
-                this.loadCommand(file);
-            }
-            console.log(`Total of ${allJS.length} commands registered`)
-        }
-    }
+			this.applicationCommand.forEach((commandObject) => {
+				if ((isGlobal && commandObject.isGlobal) || (!isGlobal && commandObject.guildId === commandGuildId)) {
+					if (commandObject.name === commandName) {
+						commandObject.runFunction(interaction);
+					}
+				}
+			});
+		}
+	}
 
-    loadCommand(commandPath: string) {
-        let command = require(commandPath);
-        if (command.default && Object.keys(command).length === 1) {
-            command = command.default
-        }
-        this.addCommand(command);
-    }
+	loadCommands(target_path: string) {
+		if (!fs.existsSync(target_path)) return false;
 
-    addCommand(command: Command | Command[]) { 
-        if (command instanceof Array) {
-            this.commands.push(...command);
-            command.forEach(cmd => { 
-               // console.log(`Command ${cmd.name} loaded`);
-            })
-        }
-        else {
-            // console.log(command);
-            this.commands.push(command);
-            // console.log(`Command ${command.name} loaded`);
-        }
-    }
+		if (target_path.startsWith('./')) {
+			target_path = path.join(process.cwd(), target_path.replace(/^\.\//, ''));
+		}
 
-        /**
-    * Loads all exported Events inside of the given Path
-    * (goes also through the subfolders)
-    * @param target_path - The Path that should be crawled for exported Commands
-    * @example
-    * const path = require("path");
-    * client.loadCommands(path.join(__dirname,"commands"));
-    */
-    loadEvents(target_path: string) {
-        let exists = fs.existsSync(target_path);
-        if (!exists) return false;
+		if (fs.statSync(target_path).isDirectory()) {
+			const allJS = fetchJS(target_path);
+			for (const file of allJS) {
+				this.loadCommand(file);
+			}
+		}
+	}
 
-        if (target_path.match(/^\.\//)) {
-            target_path = path.join(process.cwd(), target_path.replace(/^\.\//, ""));
-        }
+	loadCommand(commandPath: string) {
+		const command = require(commandPath);
+		if (command.default && Object.keys(command).length === 1) {
+			this.addCommand(command.default);
+		} else {
+			this.addCommand(command);
+		}
+	}
 
-        let isDir = fs.statSync(target_path).isDirectory();
-        if (isDir) {
-            let allJS = fetchJS(target_path);
-            for (let file of allJS) {
-                this.loadEvent(file);
-            }
-            console.log(`Total of ${allJS.length} events registered`)
-        }
-    }
-    
-    loadEvent(eventPath: string) {
-        let event = require(eventPath);
-        if (event.default && Object.keys(event).length === 1) {
-            event = event.default
-        }
-        this.addEvent(event);
-    }
+	async addCommand(command: Command | Command[] | ApplicationCommand | ApplicationCommand[]) {
+		if (Array.isArray(command)) {
+			for (const cmd of command) {
+				if (cmd instanceof ApplicationCommand) {
+					//@ts-ignore
+					const route = cmd.isGlobal ? Routes.applicationCommands(this.client.application?.id) : Routes.applicationGuildCommands(this.client.application?.id, cmd.guildId);
+					await this.client.rest.post(route, { body: cmd.getCommandObject() });
+					this.applicationCommand.push(cmd);
+				} else {
+					this.commands.push(cmd.getCommandObject());
+				}
+			}
+		} else {
+			if (command instanceof ApplicationCommand) {
+				//@ts-ignore
+				const route = command.isGlobal ? Routes.applicationCommands(this.client.application?.id) : Routes.applicationGuildCommands(this.client.application?.id, command.guildId);
+				await this.client.rest.post(route, { body: command.getCommandObject() });
+				this.applicationCommand.push(command);
+			} else {
+				this.commands.push(command.getCommandObject());
+			}
+		}
+	}
 
-    addEvent(event: Event | Event[]) { 
-        if (event instanceof Array) {
-            event.forEach(event => {
-                event.run(this.client, this);
-            })
-        }
-        else {
-            event.run(this.client, this);
-        }
-    }
+	loadEvents(target_path: string) {
+		if (!fs.existsSync(target_path)) return false;
+
+		if (target_path.startsWith('./')) {
+			target_path = path.join(process.cwd(), target_path.replace(/^\.\//, ''));
+		}
+
+		if (fs.statSync(target_path).isDirectory()) {
+			const allJS = fetchJS(target_path);
+			for (const file of allJS) {
+				this.loadEvent(file);
+			}
+		}
+	}
+
+	loadEvent(eventPath: string) {
+		const event = require(eventPath);
+		if (event.default && Object.keys(event).length === 1) {
+			this.addEvent(event.default);
+		} else {
+			this.addEvent(event);
+		}
+	}
+
+	addEvent(event: Event | Event[]) {
+		if (Array.isArray(event)) {
+			for (const evt of event) {
+				evt.run(this.client, this);
+			}
+		} else {
+			event.run(this.client, this);
+		}
+	}
 }
 
 export { CommandHandler };

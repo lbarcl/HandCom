@@ -1,10 +1,15 @@
-import {Command} from './command';
-import {Event} from './event';
+import { Command } from './command';
+import { Event } from './event';
 import { CommandHandler } from './commander';
-
-export default CommandHandler;
+import { ApplicationCommand, ApplicationCommandOption, ApplicationCommandOptionChoice } from './ApplicationCommand';
 
 export {
+    ApplicationCommand,
+    ApplicationCommandOption,
+    ApplicationCommandOptionChoice,
     Command,
-    Event
+    Event,
+    CommandHandler
 };
+
+export default CommandHandler;
