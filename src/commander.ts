@@ -34,7 +34,7 @@ class CommandHandler {
 	private applicationCommandListener(interaction: Interaction) {
 		if (interaction.isCommand()) {
 			const commandName = interaction.commandName;
-			const commandGuildId = interaction.guildId;
+			const commandGuildId = interaction.commandGuildId;
 			const isGlobal = commandGuildId == null;
 
 			this.applicationCommand.forEach((commandObject) => {
