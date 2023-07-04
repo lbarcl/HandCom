@@ -1,6 +1,6 @@
 {
   "name": "handcom",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Simple and Object Oriented command handler for discord.js",
   "files": [
     "dist"
