@@ -187,7 +187,7 @@ class ApplicationCommandOption {
     private autocomplete: boolean = false;
 
     constructor(name: string, type: number) {
-        if (!REGEX.test(name)) {
+        if (REGEX.test(name)) {
             throw new Error("Command option name is not a valid option name. You can learn about naming rules at 'https://discord.com/developers/docs/interactions/application-commands'");
         }
 
@@ -196,9 +196,6 @@ class ApplicationCommandOption {
     }
 
     setDescription(description: string) {
-        if (this.type != 1) {
-            throw new Error("Description can be set only in CHAT_INPUT type");
-        }
 
         if (description.length > MAX_DESCRIPTION_LENGTH || description.length == 0) {
             throw new Error(`Description must be at least 1 character and not more than ${MAX_DESCRIPTION_LENGTH} characters`);
@@ -208,9 +205,6 @@ class ApplicationCommandOption {
     }
 
     addLocalDescription(local: string, description: string) {
-        if (this.type != 1) {
-            throw new Error("Local description can be set only in CHAT_INPUT type");
-        }
 
         if (description.length > MAX_DESCRIPTION_LENGTH || description.length == 0) {
             throw new Error(`Description must be at least 1 character and not more than ${MAX_DESCRIPTION_LENGTH} characters`);
